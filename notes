@@ -1,0 +1,6 @@
+http://www.beyondlogic.org/usbnutshell/usb5.shtml
+
+Devices can only have one device descriptor. Look for that first:
+  - DEVICE DESCRIPTOR
+   - bcdUSB
+   - Ref usb5.shtml for parsing of the fields

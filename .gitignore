@@ -1,0 +1,10 @@
+*.pyc
+*.swp
+*.egg-info
+dist
+__pycache__
+.cache
+.coverage
+htmlcov/
+codeship.aes
+.eggs
