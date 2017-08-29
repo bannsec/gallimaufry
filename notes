@@ -4,3 +4,35 @@ Devices can only have one device descriptor. Look for that first:
   - DEVICE DESCRIPTOR
    - bcdUSB
    - Ref usb5.shtml for parsing of the fields
+
+HID subclasses and protocols referenced here:
+  - http://www.usb.org/developers/hidpage/HID1_11.pdf (page 18)
+  - Actual information about what Page to use is in the "Report descriptor"
+
+
+HID -- Use the ".usage" value as lookup into the Spec as far as what type of HID this actually is
+            "Global item (Usage)": {
+              "Header": {
+                "usbhid.item.bSize": "1",
+                "usbhid.item.bType": "1",
+                "usbhid.item.bTag": "0x00000000"
+              },
+              "usbhid.item.global.usage": "7"
+  7 == Keyboard/Keypad
+
+
+Hid keyboard structure:
+  - https://docs.mbed.com/docs/ble-hid/en/latest/api/md_doc_HID.html
+
+Class codes:
+  - http://www.usb.org/developers/defined_class
+  - Create handlers for each of these classes
+    - bInterfaceClass in Interface Descriptor
+
+
+- Create classes for:
+  - Configuration Descriptor
+    - Interface Descriptor
+      - Endpoint Descriptor
+  - http://www.beyondlogic.org/usbnutshell/usb5.shtml
+

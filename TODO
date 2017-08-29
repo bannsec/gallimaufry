@@ -1,3 +1,10 @@
+Automate updating usb.ids file:
+ - http://www.linux-usb.org/usb.ids
+
+Interface class specifications:
+ - http://www.usb.org/developers/docs/devclass_docs/
+ - bInterfaceClass
+
 Maybe add this to a "forensics_tools" python repo?
 
 menu driven
