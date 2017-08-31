@@ -7,36 +7,49 @@ class Device:
         """Defines a USB device."""
        
         self.string_descriptors = {}
+        self._parse_device_descriptor(device_descriptor)
 
-        self._parse_descriptor(device_descriptor)
-        self._resolve_string_descriptors(pcap)
+        # PCAP will filter the pcap down to only this device
+        self.pcap = pcap
 
-    def _resolve_string_descriptors(self, pcap):
+        self._resolve_string_descriptors()
+        self._parse_configuration_descriptors()
+
+    def _parse_configuration_descriptors(self) -> None:
+        """Discover and add configuration descriptors to this device."""
+        self.configuration_descriptors = []
+        
+        # Find all the configuration descriptors
+        for packet in self.pcap:
+            if has_configuration_descriptor(packet) and has_endpoint_descriptor(packet):
+                self.configuration_descriptors.append(ConfigurationDescriptor(packet))
+
+        # Sanity check
+        assert len(self.configuration_descriptors) == self.bNumConfigurations
+
+
+    def _resolve_string_descriptors(self):
         """Look up any string descriptors for this device that have been transferred."""
 
         # Grab any string descriptor packets for this device
-        string_descriptors = [packet for packet in pcap if
-                int(packet['_source']['layers']['usb']['usb.bus_id']) == self.bus_id and
-                int(packet['_source']['layers']['usb']['usb.device_address']) == self.device_address and
-                'STRING DESCRIPTOR' in packet['_source']['layers'] and
-                'usb.bString' in packet['_source']['layers']['STRING DESCRIPTOR']
-                ]
-                
+        string_descriptors = (packet for packet in self.pcap if has_string_descriptor(packet))
+
         # For each, figure out what the request was for
         for descriptor in string_descriptors:
             request_frame = int(descriptor['_source']['layers']['usb']['usb.request_in'])
-            packet = next(packet for packet in pcap if int(packet['_source']['layers']['frame']['frame.number']) == request_frame)
+            packet = next(packet for packet in self.pcap if int(packet['_source']['layers']['frame']['frame.number']) == request_frame)
             iDescriptor = int(packet['_source']['layers']['URB setup']['usb.DescriptorIndex'],16)
             bString = descriptor['_source']['layers']['STRING DESCRIPTOR']['usb.bString']
 
             self.string_descriptors[iDescriptor] = bString
 
 
-    def _parse_descriptor(self, device_descriptor) -> None:
+    def _parse_device_descriptor(self, device_descriptor) -> None:
         """Given a descriptor packet, parse out the fields."""
         
         self.bus_id = int(device_descriptor['_source']['layers']['usb']['usb.bus_id'])
         self.device_address = int(device_descriptor['_source']['layers']['usb']['usb.device_address'])
+        self.bNumConfigurations = int(device_descriptor['_source']['layers']['DEVICE DESCRIPTOR']['usb.bNumConfigurations'])
 
         bcdUSB = "{0:04x}".format(int(device_descriptor['_source']['layers']['DEVICE DESCRIPTOR']['usb.bcdUSB'],16))
         self.bluetooth_major = int(bcdUSB[:2],10)
@@ -60,6 +73,37 @@ class Device:
     ##############
     # Properties #
     ##############
+
+    @property
+    def bNumConfigurations(self) -> int:
+        """The number of Configurations this Device has."""
+        return self.__bNumConfigurations
+
+    @bNumConfigurations.setter
+    def bNumConfigurations(self, bNumConfigurations: int) -> None:
+        self.__bNumConfigurations = bNumConfigurations
+
+    @property
+    def pcap(self):
+        """The packet capture specific to this USB device."""
+        return self.__pcap
+
+    @pcap.setter
+    def pcap(self, pcap):
+        # Filter the pcap down to only packets relevant for this device.
+        self.__pcap = [packet for packet in pcap if 
+                int(packet['_source']['layers']['usb']['usb.bus_id']) == self.bus_id and 
+                int(packet['_source']['layers']['usb']['usb.device_address']) == self.device_address
+                ]
+
+    @property
+    def configuration_descriptors(self):
+        """Configuration Descriptors for this USB Device"""
+        return self.__configuration_descriptors
+
+    @configuration_descriptors.setter
+    def configuration_descriptors(self, configuration_descriptors):
+        self.__configuration_descriptors = configuration_descriptors
 
     @property
     def string_descriptors(self) -> dict:
@@ -211,4 +255,5 @@ class Device:
     def device_address(self, device_address: int) -> None:
         self.__device_address = device_address
 
-from .helpers import resolve_vendor_id, resolve_product_id
+from .helpers import *
+from .ConfigurationDescriptor import ConfigurationDescriptor

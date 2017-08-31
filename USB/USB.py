@@ -8,7 +8,7 @@ Packets = typing.List[typing.Dict]
 @enforce.runtime_validation
 class USB:
 
-    def __init__(self, pcap):
+    def __init__(self, pcap) -> None:
         """
         pcap == string path to pcap file.
         """
@@ -23,7 +23,7 @@ class USB:
         """Given the pcap loaded, enumerate and setup what devices are in the capture."""
 
         # Grab the descriptors
-        device_descriptors = self._find_packets(field_name='usb.bcdUSB')
+        device_descriptors = (packet for packet in self.pcap if has_device_descriptor(packet))
 
         # Build out a new device for each
         for device in device_descriptors:
@@ -46,6 +46,7 @@ class USB:
 
     def _find_packets(self, field_name: str = None, field_value = None) -> Packets:
         """Returns packets that have the given field inside them."""
+        # TODO: Maybe just remove this?
 
         # Setup our initial packets list
         packets = self.pcap
@@ -69,7 +70,21 @@ class USB:
         
         Returns True on successful load, False otherwise"""
 
-        self.__pcap = json.loads(subprocess.check_output(["tshark","-r",self.pcap_filename,"-T","json","-O","usb"]).decode('cp1252'))
+        def preprocess(pcap: str) -> str:
+            # Work around the tshark issue where the json fields are not unique...
+            # For now, just give them each a unique int. Because who cares.
+            bad_words = ["HID DESCRIPTOR","ENDPOINT DESCRIPTOR"]
+            pcap2 = []
+            i = 0
+            for line in pcap.split("\n"):
+                for bad_word in bad_words:
+                    if bad_word in line:
+                        line = line.replace(bad_word, "{0} {1}".format(bad_word, i))
+                        i += 1
+                pcap2.append(line)
+            return '\n'.join(pcap2)
+
+        self.__pcap = json.loads(preprocess(subprocess.check_output(["tshark","-r",self.pcap_filename,"-T","json","-O","usb"]).decode('cp1252')),object_pairs_hook=OrderedDict)
 
         return True
 
@@ -113,3 +128,5 @@ import os
 import shutil
 import subprocess
 import json
+from collections import OrderedDict
+from .helpers import *

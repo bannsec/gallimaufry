@@ -25,5 +25,3 @@ Install using pip:
 ```bash
 $ pip install .
 ```
-
-
