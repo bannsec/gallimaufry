@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger("USB.Device")
+
 import enforce
 
 @enforce.runtime_validation
@@ -25,7 +28,8 @@ class Device:
                 self.configuration_descriptors.append(ConfigurationDescriptor(packet))
 
         # Sanity check
-        assert len(self.configuration_descriptors) == self.bNumConfigurations
+        if len(self.configuration_descriptors) != self.bNumConfigurations:
+            logger.warn("Expected {0} Descriptors. Found {1}.".format(self.bNumConfigurations, len(self.configuration_descriptors)))
 
 
     def _resolve_string_descriptors(self):
