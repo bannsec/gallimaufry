@@ -25,6 +25,35 @@ class ConfigurationDescriptor:
         self.legacy_10bus_powered = bool(int(descriptor['usb.configuration.bmAttributes_tree']['usb.configuration.legacy10buspowered']))
         self.remote_wakeup = bool(int(descriptor['usb.configuration.bmAttributes_tree']['usb.configuration.remotewakeup']))
 
+        # Loop through the configurations
+        found_config = False
+        for layer in packet['_source']['layers'].values():
+            # Is this a config field?
+            if 'usb.bDescriptorType' in layer and int(layer['usb.bDescriptorType'],16) == 2:
+                found_config = True
+                continue
+
+            # If we haven't hit the config yet, move on
+            if not found_config:
+                continue
+
+            # HID Descriptor
+            if int(layer['usb.bDescriptorType'],16) == 0x21:
+                print("Found HID Descriptor.")
+
+            # Interface Descriptor
+            elif int(layer['usb.bDescriptorType'],16) == 0x4:
+                print("Found Interface Descriptor.")
+
+            # Endpoint Descriptor
+            elif int(layer['usb.bDescriptorType'],16) == 0x5:
+                print("Found Endpoint Descriptor.")
+
+            else:
+                print("Not sure what this descriptor is... usb.bDescriptorType = {0}".format(int(layer['usb.bDescriptorType'],16)))
+
+
+
     def __repr__(self) -> str:
         return "<ConfigurationDescriptor bNumInterfaces={0} bConfigurationValue={1}>".format(self.bNumInterfaces, self.bConfigurationValue)
 
