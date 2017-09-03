@@ -20,16 +20,16 @@ class Device:
 
     def _parse_configuration_descriptors(self) -> None:
         """Discover and add configuration descriptors to this device."""
-        self.configuration_descriptors = []
+        self.configurations = []
         
         # Find all the configuration descriptors
         for packet in self.pcap:
             if has_configuration_descriptor(packet) and has_endpoint_descriptor(packet):
-                self.configuration_descriptors.append(ConfigurationDescriptor(packet))
+                self.configurations.append(Configuration(packet))
 
         # Sanity check
-        if len(self.configuration_descriptors) != self.bNumConfigurations:
-            logger.warn("Expected {0} Descriptors. Found {1}.".format(self.bNumConfigurations, len(self.configuration_descriptors)))
+        if len(self.configurations) != self.bNumConfigurations:
+            logger.warn("Expected {0} Descriptors. Found {1}.".format(self.bNumConfigurations, len(self.configurations)))
 
 
     def _resolve_string_descriptors(self):
@@ -101,13 +101,13 @@ class Device:
                 ]
 
     @property
-    def configuration_descriptors(self):
-        """Configuration Descriptors for this USB Device"""
-        return self.__configuration_descriptors
+    def configurations(self):
+        """Configurations for this USB Device"""
+        return self.__configurations
 
-    @configuration_descriptors.setter
-    def configuration_descriptors(self, configuration_descriptors):
-        self.__configuration_descriptors = configuration_descriptors
+    @configurations.setter
+    def configurations(self, configurations):
+        self.__configurations = configurations
 
     @property
     def string_descriptors(self) -> dict:
@@ -260,4 +260,4 @@ class Device:
         self.__device_address = device_address
 
 from .helpers import *
-from .ConfigurationDescriptor import ConfigurationDescriptor
+from .Configuration import Configuration

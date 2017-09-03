@@ -1,11 +1,11 @@
 import enforce
 
 @enforce.runtime_validation
-class ConfigurationDescriptor:
+class Configuration:
 
     def __init__(self, packet):
         """
-        Represents a USB Configuration Descriptor.
+        Represents a USB Configuration.
 
         packet == json packet containing the descriptor for this object
 
@@ -55,7 +55,7 @@ class ConfigurationDescriptor:
 
 
     def __repr__(self) -> str:
-        return "<ConfigurationDescriptor bNumInterfaces={0} bConfigurationValue={1}>".format(self.bNumInterfaces, self.bConfigurationValue)
+        return "<Configuration bNumInterfaces={0} bConfigurationValue={1}>".format(self.bNumInterfaces, self.bConfigurationValue)
 
     ##############
     # Properties #
