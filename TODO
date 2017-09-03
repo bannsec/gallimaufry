@@ -14,3 +14,5 @@ check for what usb streams are present
 filter out extra noise
 
 Handle string descriptors for all the objects.
+
+Add "summary" property to return summarized information about each object.

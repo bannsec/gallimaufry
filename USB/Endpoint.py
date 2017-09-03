@@ -23,15 +23,18 @@ class Endpoint:
         self.pcap = pcap
 
     def _parse_endpoint_descriptor_packet(self, endpoint_descriptor_packet):
-        print(endpoint_descriptor_packet)
-
         self.bEndpointAddress = int(endpoint_descriptor_packet['usb.bEndpointAddress'],16)
         self.bmAttributes = int(endpoint_descriptor_packet['usb.bmAttributes'],16)
         self.wMaxPacketSize = int(endpoint_descriptor_packet['usb.wMaxPacketSize'])
         self.bInterval = int(endpoint_descriptor_packet['usb.bInterval'])
 
     def __repr__(self) -> str:
-        return "<Endpoint number={0} direction={1} transfer_type={2}>".format(self.number, self.direction_str, self.transfer_type_str)
+        return "<Endpoint number={0} direction={1} transfer_type={2} packets={3}>".format(
+                self.number,
+                self.direction_str,
+                self.transfer_type_str,
+                len(self.pcap),
+                )
 
     ##############
     # Properties #

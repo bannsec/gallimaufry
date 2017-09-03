@@ -1,4 +1,7 @@
 import enforce
+import logging
+
+logger = logging.getLogger("USB.Configuration")
 
 @enforce.runtime_validation
 class Configuration:
@@ -45,21 +48,18 @@ class Configuration:
 
             # Interface Descriptor
             if int(layer['usb.bDescriptorType'],16) == 0x4:
-                print("Found Interface Descriptor.")
                 self.interfaces.append(Interface(layer, pcap=self.pcap))
 
             # HID Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x21:
-                print("Found HID Descriptor.")
                 self.interfaces[-1]._parse_hid_descriptor_packet(layer)
 
             # Endpoint Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x5:
                 self.interfaces[-1]._parse_endpoint_descriptor_packet(layer)
-                print("Found Endpoint Descriptor.")
 
             else:
-                print("Not sure what this descriptor is... usb.bDescriptorType = {0}".format(int(layer['usb.bDescriptorType'],16)))
+                logger.error("Not sure what this descriptor is... usb.bDescriptorType = {0}".format(int(layer['usb.bDescriptorType'],16)))
 
 
 
