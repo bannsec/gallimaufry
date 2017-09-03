@@ -30,9 +30,5 @@ Class codes:
     - bInterfaceClass in Interface Descriptor
 
 
-- Create classes for:
-  - Configuration Descriptor
-    - Interface Descriptor
-      - Endpoint Descriptor
-  - http://www.beyondlogic.org/usbnutshell/usb5.shtml
+- http://www.beyondlogic.org/usbnutshell/usb5.shtml
 
