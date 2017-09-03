@@ -11,8 +11,6 @@ class HID:
         self._parse_hid_descriptor_packet(hid_descriptor_packet)
 
     def _parse_hid_descriptor_packet(self, hid_descriptor_packet):
-        print(hid_descriptor_packet)
-
         self.bcdHID = int(hid_descriptor_packet['usbhid.descriptor.hid.bcdHID'],16)
         self.bCountryCode = int(hid_descriptor_packet['usbhid.descriptor.hid.bCountryCode'],16)
         self.bNumDescriptors = int(hid_descriptor_packet['usbhid.descriptor.hid.bNumDescriptors'])
