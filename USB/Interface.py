@@ -1,17 +1,24 @@
 import enforce
 import typing
 from .HID import HID
+from .Endpoint import Endpoint
 
 @enforce.runtime_validation
 class Interface:
 
-    def __init__(self,interface_descriptor_packet):
+    def __init__(self,interface_descriptor_packet, pcap):
         """
         interface_descriptor_packet == json of the interface descriptor packet that defines this interface.
+        pacp = json pcap
         """
+        # Store the pcap
+        self.pcap = pcap
 
         # Assume no HID
         self.hid = None
+
+        # No known endpoints to start with
+        self.endpoints = []
 
         self._parse_interface_descriptor_packet(interface_descriptor_packet)
 
@@ -27,12 +34,23 @@ class Interface:
     def _parse_hid_descriptor_packet(self, hid_descriptor_packet):
         self.hid = HID(hid_descriptor_packet)
 
+    def _parse_endpoint_descriptor_packet(self, endpoint_descriptor_packet):
+        self.endpoints.append(Endpoint(endpoint_descriptor_packet, pcap=self.pcap))
+
     def __repr__(self) -> str:
         return "<Interface bInterfaceNumber={0}>".format(self.bInterfaceNumber)
 
     ##############
     # Properties #
     ##############
+
+    @property
+    def endpoints(self) -> typing.List[Endpoint]:
+        return self.__endpoints
+
+    @endpoints.setter
+    def endpoints(self, endpoints: typing.List[Endpoint]) -> None:
+        self.__endpoints = endpoints
 
     @property
     def hid(self) -> typing.Union[type(None), HID]:

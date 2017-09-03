@@ -3,14 +3,17 @@ import enforce
 @enforce.runtime_validation
 class Configuration:
 
-    def __init__(self, packet):
+    def __init__(self, packet, pcap):
         """
         Represents a USB Configuration.
 
         packet == json packet containing the descriptor for this object
+        pcap == the pcap json blob
 
         Ref: http://www.beyondlogic.org/usbnutshell/usb5.shtml#ConfigurationDescriptors
         """
+        self.pcap = pcap
+
         self._parse_configuration_descriptor(packet)
 
     def _parse_configuration_descriptor(self, packet):
@@ -43,7 +46,7 @@ class Configuration:
             # Interface Descriptor
             if int(layer['usb.bDescriptorType'],16) == 0x4:
                 print("Found Interface Descriptor.")
-                self.interfaces.append(Interface(layer))
+                self.interfaces.append(Interface(layer, pcap=self.pcap))
 
             # HID Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x21:
@@ -52,6 +55,7 @@ class Configuration:
 
             # Endpoint Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x5:
+                self.interfaces[-1]._parse_endpoint_descriptor_packet(layer)
                 print("Found Endpoint Descriptor.")
 
             else:

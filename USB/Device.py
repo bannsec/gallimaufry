@@ -25,7 +25,7 @@ class Device:
         # Find all the configuration descriptors
         for packet in self.pcap:
             if has_configuration_descriptor(packet) and has_endpoint_descriptor(packet):
-                self.configurations.append(Configuration(packet))
+                self.configurations.append(Configuration(packet, pcap=self.pcap))
 
         # Sanity check
         if len(self.configurations) != self.bNumConfigurations:
