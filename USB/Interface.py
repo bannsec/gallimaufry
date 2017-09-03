@@ -1,4 +1,6 @@
 import enforce
+import typing
+from .HID import HID
 
 @enforce.runtime_validation
 class Interface:
@@ -7,6 +9,9 @@ class Interface:
         """
         interface_descriptor_packet == json of the interface descriptor packet that defines this interface.
         """
+
+        # Assume no HID
+        self.hid = None
 
         self._parse_interface_descriptor_packet(interface_descriptor_packet)
 
@@ -19,12 +24,26 @@ class Interface:
         self.bInterfaceProtocol = int(interface_descriptor_packet['usb.bInterfaceProtocol'],16)
         self.iInterface = int(interface_descriptor_packet['usb.iInterface'])
 
+    def _parse_hid_descriptor_packet(self, hid_descriptor_packet):
+        self.hid = HID(hid_descriptor_packet)
+
     def __repr__(self) -> str:
         return "<Interface bInterfaceNumber={0}>".format(self.bInterfaceNumber)
 
     ##############
     # Properties #
     ##############
+
+    @property
+    def hid(self) -> typing.Union[type(None), HID]:
+        """
+        Returns the HID object for this Interface, if one exists, otherwise None
+        """
+        return self.__hid
+
+    @hid.setter
+    def hid(self, hid: typing.Union[type(None), HID]) -> None:
+        self.__hid = hid
 
     @property
     def iInterface(self) -> int:
@@ -81,3 +100,4 @@ class Interface:
     @bInterfaceNumber.setter
     def bInterfaceNumber(self, bInterfaceNumber: int) -> None:
         self.__bInterfaceNumber = bInterfaceNumber
+

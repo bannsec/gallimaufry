@@ -48,6 +48,7 @@ class Configuration:
             # HID Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x21:
                 print("Found HID Descriptor.")
+                self.interfaces[-1]._parse_hid_descriptor_packet(layer)
 
             # Endpoint Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x5:
