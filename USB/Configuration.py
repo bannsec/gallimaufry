@@ -14,6 +14,9 @@ class Configuration:
         self._parse_configuration_descriptor(packet)
 
     def _parse_configuration_descriptor(self, packet):
+        # Init the interfaces
+        self.interfaces = []
+
         # Pull out the descriptor
         descriptor = get_configuration_descriptor(packet)
 
@@ -37,13 +40,14 @@ class Configuration:
             if not found_config:
                 continue
 
-            # HID Descriptor
-            if int(layer['usb.bDescriptorType'],16) == 0x21:
-                print("Found HID Descriptor.")
-
             # Interface Descriptor
-            elif int(layer['usb.bDescriptorType'],16) == 0x4:
+            if int(layer['usb.bDescriptorType'],16) == 0x4:
                 print("Found Interface Descriptor.")
+                self.interfaces.append(Interface(layer))
+
+            # HID Descriptor
+            elif int(layer['usb.bDescriptorType'],16) == 0x21:
+                print("Found HID Descriptor.")
 
             # Endpoint Descriptor
             elif int(layer['usb.bDescriptorType'],16) == 0x5:
@@ -60,6 +64,15 @@ class Configuration:
     ##############
     # Properties #
     ##############
+
+    @property
+    def interfaces(self) -> list:
+        """Each USB Configuration has at least one interface."""
+        return self.__interfaces
+
+    @interfaces.setter
+    def interfaces(self, interfaces: list) -> None:
+        self.__interfaces = interfaces
 
     @property
     def bMaxPower(self) -> int:
@@ -125,3 +138,4 @@ class Configuration:
         self.__bNumInterfaces = bNumInterfaces
 
 from .helpers import *
+from .Interface import Interface
