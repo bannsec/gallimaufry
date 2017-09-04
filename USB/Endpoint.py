@@ -44,6 +44,17 @@ class Endpoint:
     ##############
 
     @property
+    def summary(self) -> str:
+        """Returns textual summary of this Endpoint."""
+        summary = "Endpoint {0}\n".format(self.number)
+        summary += "-"*(len(summary)-1) + "\n"
+        summary += "direction: {0}\n".format(self.direction_str)
+        summary += "transfer_type: {0}\n".format(self.transfer_type_str)
+        summary += "packets: {0}\n".format(len(self.pcap))
+
+        return summary
+
+    @property
     def interface(self):
         """Parent Interface object."""
         return self.__interface

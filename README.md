@@ -20,8 +20,24 @@ Out[4]: [<Apple, Inc. Aluminum Keyboard (ISO) v0.6.9 USB2.0.0 bus_id=1 address=3
  - tshark
 
 # Install
+
+## Pip
 Install using pip:
 
 ```bash
 $ pip install .
 ```
+
+## Docker
+There is an auto-build Docker container that has everything set up already. Download it with the following:
+
+```bash
+$ sudo docker pull bannsec/usb_pcap
+```
+
+Run it:
+
+```bash
+$ sudo docker run -it --rm -v $PWD:/my_mount bannsec/usb_pcap
+```
+

@@ -73,6 +73,27 @@ class Configuration:
     ##############
 
     @property
+    def summary(self) -> str:
+        """Textual summary of this Configuration."""
+        summary  = "Configuration {0}\n".format(self.bConfigurationValue)
+        summary += "-" * (len(summary) - 1) + "\n"
+
+        summary += "bNumInterfaces = {0}\n".format(self.bNumInterfaces)
+        summary += "self_powered = {0}\n".format(self.self_powered)
+        summary += "remote_wakeup = {0}\n\n".format(self.remote_wakeup)
+
+        summary += "Interfaces\n"
+        summary += "-----------\n"
+
+        # Loop through Interfaces
+        for interface in self.interfaces:
+            summary += "\n"
+            for line in interface.summary.split("\n"):
+                summary +=  " "*4 + line + "\n"
+
+        return summary.strip()
+
+    @property
     def interfaces(self) -> list:
         """Each USB Configuration has at least one interface."""
         return self.__interfaces

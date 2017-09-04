@@ -79,6 +79,30 @@ class Device:
     ##############
 
     @property
+    def summary(self) -> str:
+        """Return textual summary of this device."""
+        summary = ""
+
+        summary += self.vendor + " - " + self.product + "\n"
+        summary += "-" * (len(summary)-1) + "\n"
+        summary += "bus_id: {0}\n".format(self.bus_id)
+        summary += "device_address: {0}\n".format(self.device_address)
+        summary += "device_version: {0}\n".format(self.device_version)
+        summary += "bluetooth_version: {0}\n".format(self.bluetooth_version)
+        summary += "packets: {0}\n\n".format(len(self.pcap))
+
+        summary += "Configurations\n"
+        summary += "--------------\n"
+
+        # Loop through Configurations
+        for configuration in self.configurations:
+            summary += "\n"
+            for line in configuration.summary.split("\n"):
+                summary +=  " "*4 + line + "\n"
+
+        return summary.strip()
+
+    @property
     def bNumConfigurations(self) -> int:
         """The number of Configurations this Device has."""
         return self.__bNumConfigurations

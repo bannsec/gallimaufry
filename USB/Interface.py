@@ -51,6 +51,32 @@ class Interface:
     ##############
 
     @property
+    def summary(self) -> str:
+        """Textual summary of this interface."""
+        summary = "Interface {0}\n".format(self.bInterfaceNumber)
+        summary += "-"*(len(summary)-1) + "\n"
+
+        summary += "Class: {0}\n".format(self.class_str)
+
+        if self.subclass_str != None:
+            summary += "SubClass: {0}\n".format(self.subclass_str)
+
+        if self.protocol_str != None:
+            summary += "Protocol: {0}\n".format(self.protocol_str)
+
+        summary += "\n"
+        summary += "Endpoints\n"
+        summary += "---------\n"
+
+        # Loop through Endpoints
+        for endpoint in self.endpoints:
+            summary += "\n"
+            for line in endpoint.summary.split("\n"):
+                summary +=  " "*4 + line + "\n"
+
+        return summary.strip()
+
+    @property
     def protocol_str(self) -> typing.Union[str, type(None)]:
         return self.__protocol_str
 

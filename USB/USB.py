@@ -97,6 +97,22 @@ class USB:
     ##############
 
     @property
+    def summary(self) -> str:
+        """Returns a textual summary of this pcap."""
+        summary = "PCAP: {0}\n".format(self.pcap_filename)
+        summary += "Total Packets: {0}\n\n".format(len(self.pcap))
+
+        summary += "Devices\n"
+        summary += "-------\n"
+
+        for device in self.devices:
+            summary += "\n"
+            for line in device.summary.split("\n"):
+                summary +=  " "*4 + line + "\n"
+
+        return summary.strip()
+
+    @property
     def pcap(self) -> str:
         """Returns the json dump of this pcap."""
         return self.__pcap

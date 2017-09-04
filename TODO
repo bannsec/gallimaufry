@@ -16,3 +16,6 @@ filter out extra noise
 Handle string descriptors for all the objects.
 
 Add "summary" property to return summarized information about each object.
+
+Manual usage of Handlers for Interfaces that we don't have a full parse for
+ - I.e.: We only get the transfer packets. We are told that it's a keyboard. We should be able to still parse it using the handlers by specifying information.
