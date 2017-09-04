@@ -3,12 +3,10 @@ logger = logging.getLogger("USB.Classes.HID")
 
 import enforce
 
-from ...Interface import Interface
-
 @enforce.runtime_validation
 class HID:
 
-    def __init__(self, interface: Interface):
+    def __init__(self, interface):
         """
         interface = pointer to interface class for this to parse
         """
@@ -23,10 +21,10 @@ class HID:
     ##############
 
     @property
-    def interface(self) -> Interface:
+    def interface(self):
         """The associated interface for this Handler."""
         return self.__interface
 
     @interface.setter
-    def interface(self, interface: Interface) -> None:
+    def interface(self, interface) -> None:
         self.__interface = interface

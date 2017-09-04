@@ -2,6 +2,19 @@ import logging
 
 logger = logging.getLogger("USB.Classes")
 
+import enforce
+
+@enforce.runtime_validation
+def get_class_handler(class_id: int):
+    """Returns the handler for the given class id."""
+
+    if class_id not in handlers:
+        logger.warn("Could not find handler for class id of {0}".format(class_id))
+        return None
+
+    return handlers[class_id]
+
+
 from .HID import HID
 
 # Enumerate the handlers we have added

@@ -2,6 +2,7 @@ import enforce
 import typing
 from .HID import HID
 from .Endpoint import Endpoint
+from .Classes import get_class_handler
 
 @enforce.runtime_validation
 class Interface:
@@ -43,6 +44,20 @@ class Interface:
     ##############
     # Properties #
     ##############
+
+    @property
+    def handler(self):
+        """Returns the handler, if known, for this interface."""
+
+        # First request? Resolve it
+        if not hasattr(self, "_Interface__handler"):
+            self.__handler = get_class_handler(self.bInterfaceClass)
+
+            # If we found one
+            if self.__handler != None:
+                self.__handler = self.__handler(self)
+
+        return self.__handler
 
     @property
     def endpoints(self) -> typing.List[Endpoint]:
