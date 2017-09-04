@@ -36,13 +36,18 @@ class Keyboard:
             for key in (key1, key2, key3, key4, key5, key6):
                 # 0 means no key pressed
                 if key != 0:
-
+    
+                    # Shift
                     if modifier['LEFT_SHIFT'] or modifier['RIGHT_SHIFT']:
                         key = key_codes[key][1]
                     else:
                         key = key_codes[key][0]
 
-                    # TODO: Add other modifier keys.
+                    # Other mods
+                    for k, v in modifier.items():
+                        if k not in ["LEFT_SHIFT", "RIGHT_SHIFT"] and v == True:
+                            key = "[{0}]".format(k) + key
+
                     stroke += key
 
             # If this was not a clear command
