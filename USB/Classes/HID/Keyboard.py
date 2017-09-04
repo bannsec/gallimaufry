@@ -66,6 +66,9 @@ class Keyboard:
                 'RIGHT_GUI'     : (modifier >> 7) & 0b1 == 1,
                 }
 
+    def __repr__(self) -> str:
+        return "<Keyboard keystrokes={0}>".format(len(self.keystrokes_list))
+
     ##############
     # Properties #
     ##############
