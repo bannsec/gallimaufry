@@ -15,6 +15,10 @@ class Interface:
         # Store the pcap
         self.pcap = pcap
 
+        # These will be filled in by the handler
+        self.subclass_str = None
+        self.protocol_str = None
+
         # Assume no HID
         self.hid = None
 
@@ -36,6 +40,7 @@ class Interface:
         self.hid = HID(hid_descriptor_packet)
 
     def _parse_endpoint_descriptor_packet(self, endpoint_descriptor_packet):
+        # This is called from the Configuration Descriptor parsing
         self.endpoints.append(Endpoint(endpoint_descriptor_packet, pcap=self.pcap, interface=self))
 
     def __repr__(self) -> str:
@@ -44,6 +49,22 @@ class Interface:
     ##############
     # Properties #
     ##############
+
+    @property
+    def protocol_str(self) -> typing.Union[str, type(None)]:
+        return self.__protocol_str
+
+    @protocol_str.setter
+    def protocol_str(self, protocol_str: typing.Union[str, type(None)]) -> None:
+        self.__protocol_str = protocol_str
+
+    @property
+    def subclass_str(self) -> typing.Union[str, type(None)]:
+        return self.__subclass_str
+
+    @subclass_str.setter
+    def subclass_str(self, subclass_str: typing.Union[str, type(None)]) -> None:
+        self.__subclass_str = subclass_str
 
     @property
     def handler(self):

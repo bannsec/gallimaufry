@@ -61,7 +61,9 @@ class Configuration:
             else:
                 logger.error("Not sure what this descriptor is... usb.bDescriptorType = {0}".format(int(layer['usb.bDescriptorType'],16)))
 
-
+        # Instantiate any handlers
+        for interface in self.interfaces:
+            interface.handler
 
     def __repr__(self) -> str:
         return "<Configuration bNumInterfaces={0} bConfigurationValue={1}>".format(self.bNumInterfaces, self.bConfigurationValue)
