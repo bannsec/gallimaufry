@@ -21,6 +21,10 @@ class Keyboard:
         # TODO: Handle parsing non-interrupt based?
 
         for packet in self.pcap:
+            # Not interrupt packet
+            if 'usb.capdata' not in packet['_source']['layers']:
+                continue
+
             cap_data = packet['_source']['layers']['usb.capdata']
             modifier, _, key1, key2, key3, key4, key5, key6 = [int(field,16) for field in cap_data.split(":")]
             
