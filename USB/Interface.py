@@ -38,7 +38,7 @@ class Interface:
         self.endpoints.append(Endpoint(endpoint_descriptor_packet, pcap=self.pcap, interface=self))
 
     def __repr__(self) -> str:
-        return "<Interface bInterfaceNumber={0}>".format(self.bInterfaceNumber)
+        return "<Interface {1} bInterfaceNumber={0}>".format(self.bInterfaceNumber, self.class_str)
 
     ##############
     # Properties #
@@ -96,6 +96,11 @@ class Interface:
         self.__bInterfaceClass = bInterfaceClass
 
     @property
+    def class_str(self) -> str:
+        """Returns the class of this interface as a string."""
+        return USB.Classes.classes[self.bInterfaceClass]
+
+    @property
     def bNumEndpoints(self) -> int:
         return self.__bNumEndpoints
 
@@ -119,3 +124,4 @@ class Interface:
     def bInterfaceNumber(self, bInterfaceNumber: int) -> None:
         self.__bInterfaceNumber = bInterfaceNumber
 
+import USB.Classes
