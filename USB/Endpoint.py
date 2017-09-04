@@ -12,11 +12,14 @@ TT_INTERRUPT   = 3
 @enforce.runtime_validation
 class Endpoint:
 
-    def __init__(self, endpoint_descriptor_packet, pcap):
+    def __init__(self, endpoint_descriptor_packet, pcap, interface):
         """
         endpoint_descriptor_packet = json packet for endpoint descriptor
         pcap = json packet capture
+        interface = pointer to parent interface object
         """
+        self.interface = interface
+
         self._parse_endpoint_descriptor_packet(endpoint_descriptor_packet)
 
         # This will filter down the pcap to only those packets relevant to this endpoint
@@ -39,6 +42,15 @@ class Endpoint:
     ##############
     # Properties #
     ##############
+
+    @property
+    def interface(self):
+        """Parent Interface object."""
+        return self.__interface
+
+    @interface.setter
+    def interface(self, interface) -> None:
+        self.__interface = interface
 
     @property
     def pcap(self):

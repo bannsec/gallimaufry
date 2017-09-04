@@ -35,7 +35,7 @@ class Interface:
         self.hid = HID(hid_descriptor_packet)
 
     def _parse_endpoint_descriptor_packet(self, endpoint_descriptor_packet):
-        self.endpoints.append(Endpoint(endpoint_descriptor_packet, pcap=self.pcap))
+        self.endpoints.append(Endpoint(endpoint_descriptor_packet, pcap=self.pcap, interface=self))
 
     def __repr__(self) -> str:
         return "<Interface bInterfaceNumber={0}>".format(self.bInterfaceNumber)
