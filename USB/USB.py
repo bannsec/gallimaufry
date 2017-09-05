@@ -8,11 +8,13 @@ Packets = typing.List[typing.Dict]
 
 @enforce.runtime_validation
 class USB:
+    """Base class for defining a USB packet capture.
+
+    Args:
+        pcap (str): Path to a pcap file to parse.
+    """
 
     def __init__(self, pcap) -> None:
-        """
-        pcap == string path to pcap file.
-        """
         self.__prechecks__()
 
         self.pcap_filename = pcap
