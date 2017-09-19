@@ -8,6 +8,12 @@ Welcome to knuckles's documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: General
+
+   Overview
+
+.. toctree::
+   :maxdepth: 2
    :caption: API
 
    USB

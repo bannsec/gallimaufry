@@ -5,10 +5,15 @@ import enforce
 
 @enforce.runtime_validation
 class Device:
+    """Defines a USB device.
+    
+    Args:
+        device_descriptor: The device descriptor packet to use in generating this device object.
+        pcap: The full list of packets as returned by tshark.
+
+    """
 
     def __init__(self, device_descriptor, pcap):
-        """Defines a USB device."""
-       
         self.string_descriptors = {}
         self._parse_device_descriptor(device_descriptor)
 
@@ -80,7 +85,7 @@ class Device:
 
     @property
     def summary(self) -> str:
-        """Return textual summary of this device."""
+        """str: Return textual summary of this device."""
         summary = ""
 
         summary += self.vendor + " - " + self.product + "\n"
@@ -104,7 +109,7 @@ class Device:
 
     @property
     def bNumConfigurations(self) -> int:
-        """The number of Configurations this Device has."""
+        """int: The number of Configurations this Device has."""
         return self.__bNumConfigurations
 
     @bNumConfigurations.setter
