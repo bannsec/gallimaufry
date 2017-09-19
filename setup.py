@@ -27,7 +27,7 @@ setup(
         'Environment :: Console'
     ],
     extras_require={
-        'dev': ['six','ipython','twine','pytest','python-coveralls','coverage','pytest-cov','pytest-xdist','sphinxcontrib-napoleon, sphinx_rtd_theme','sphinx-autodoc-typehints'],
+        'dev': ['six','ipython','twine','pytest','python-coveralls','coverage','pytest-cov','pytest-xdist','sphinxcontrib-napoleon', 'sphinx_rtd_theme','sphinx-autodoc-typehints'],
     },
     install_requires=["enforce"],
     keywords='usb pcap parse',
