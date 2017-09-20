@@ -1,0 +1,252 @@
+#################
+CSAW 2012: Net300
+#################
+
+********
+Overview
+********
+For the Net300 challenge we are given a file named `dongle.pcap`. The first
+thing to do is open it in something like ``Wireshark``. A quick peek with
+``Wireshark`` shows that they have captured USB packets. Our goal will likely
+be to extract the flag from the data being transferred.
+
+****************
+Step 0: Analysis
+****************
+At this point, we're not quite sure what data is being passed around in these
+USB packets. Based on the nature of the protocol, it could be many things, and
+the method of transferring that information does not often allow you to simply
+run ``strings`` to discover what it is. Let's open it up with ``usb_pcap``::
+
+    In [1]: from USB import USB
+
+    In [2]: pcap = USB("./dongle.pcap")
+    Expected 1 Descriptors. Found 0.
+
+    In [3]: pcap
+    Out[3]: <USB packets=2844>
+
+So we've parsed the pcap file. There is a warning stating that we expected 1
+Descriptor but didn't find it. This is OK, but it's a good thing to keep in
+mind. Basically, ``usb_pcap`` relies on parsing the same information that your
+USB device sends to your host. This allows us to know what type of device it
+is, and other useful information for proper parsing. The warning above means
+that the Descriptor told us we should expect 1 of them, but we found none. This
+could be for any number of reasons, mostly likely that the Descriptor we're
+parsing came before our pcap. Even if you have no Descriptors, however, you can
+still use ``usb_pcap`` to parse the data, but you have to do a little more work
+yourself. This will be covered in the example of Pico 2017.
+
+Now that we've loaded up the pcap, we should take a look at what's inside it.
+With smaller pcap files, the easiest way is probably to use the ``summary``
+property::
+
+	In [5]: print(pcap.summary)
+	PCAP: /home/user/opt/usb_pcap/examples/keyboard/csaw2012/dongle.pcap
+	Total Packets: 2844
+
+	Devices 
+	------- 
+
+		Van Ooijen Technische Informatica - Teensyduino Keyboard+Mouse+Joystick
+		-----------------------------------------------------------------------
+		bus_id: 2
+		device_address: 0
+		device_version: 1.0.5
+		bluetooth_version: 2.0.0
+		packets: 4
+
+		Configurations
+		--------------
+
+		Van Ooijen Technische Informatica - Teensyduino Keyboard+Mouse+Joystick
+		-----------------------------------------------------------------------
+		bus_id: 2
+		device_address: 26
+		device_version: 1.0.5
+		bluetooth_version: 2.0.0
+		packets: 2758
+
+		Configurations
+		--------------
+
+			Configuration 1
+			---------------
+			bNumInterfaces = 4
+			self_powered = True
+			remote_wakeup = False
+
+			Interfaces
+			-----------
+
+				Interface 0
+				-----------
+				Class: HID – Human Interface Device
+				SubClass: Boot Interface Subclass
+				Protocol: Keyboard
+
+				Endpoints
+				---------
+
+					Endpoint 3
+					----------
+					direction: In
+					transfer_type: Interrupt
+					packets: 2696
+
+				Interface 1
+				-----------
+				Class: HID – Human Interface Device
+				SubClass: Boot Interface Subclass
+				Protocol: Mouse
+
+				Endpoints
+				---------
+
+					Endpoint 4
+					----------
+					direction: In
+					transfer_type: Interrupt
+					packets: 20
+
+				Interface 2
+				-----------
+				Class: HID – Human Interface Device
+				SubClass: No Subclass
+				Protocol: None
+
+				Endpoints
+				---------
+
+					Endpoint 1
+					----------
+					direction: In
+					transfer_type: Interrupt
+					packets: 0
+
+
+					Endpoint 2
+					----------
+					direction: Out
+					transfer_type: Interrupt
+					packets: 0
+
+				Interface 3
+				-----------
+				Class: HID – Human Interface Device
+				SubClass: No Subclass
+				Protocol: None
+
+				Endpoints
+				---------
+
+					Endpoint 5
+					----------
+					direction: In
+					transfer_type: Interrupt
+					packets: 0
+
+Since we weren't told ahead of time where the flag is, we should likely guess
+that it is from the stream that has the majority of the packets. Thus, simply
+trace down that list watching who is sending the most packets, and we find that
+it's coming from Configuration 1, Endpoint 3, which is being described as a
+keyboard.
+
+******************************
+Step 1: Extract the Keystrokes
+******************************
+Here we can drill down into the object to extract the keystrokes. Let's take a
+look at the devices::
+
+	In [6]: pcap.devices
+	Out[6]: 
+	[<Van Ooijen Technische Informatica Teensyduino Keyboard+Mouse+Joystick v1.0.5 USB2.0.0 bus_id=2 address=0>,
+	 <Van Ooijen Technische Informatica Teensyduino Keyboard+Mouse+Joystick v1.0.5 USB2.0.0 bus_id=2 address=26>]
+
+Looking at our summary, we know it's the device with address 26. We can then 
+drill down into the Configurations::
+
+	In [7]: pcap.devices[1].configurations
+	Out[7]: [<Configuration bNumInterfaces=4 bConfigurationValue=1>]
+
+There's only one. Let's look at the Interfaces::
+
+	In [8]: pcap.devices[1].configurations[0].interfaces
+	Out[8]: 
+	[<Interface HID – Human Interface Device bInterfaceNumber=0>,
+	 <Interface HID – Human Interface Device bInterfaceNumber=1>,
+	 <Interface HID – Human Interface Device bInterfaceNumber=2>,
+	 <Interface HID – Human Interface Device bInterfaceNumber=3>]
+
+From the summary, we know we want Interface 0. Finally, checkout the endpoints::
+
+	In [9]: pcap.devices[1].configurations[0].interfaces[0].endpoints
+	Out[9]: [<Endpoint number=3 direction=In transfer_type=Interrupt packets=2696>]
+
+There's only one of them. At this point, we have an Endpoint object. The
+library has identified that this endpoint is a keyboard, and has added a
+``Keyboard`` object to it. Let's pull that out.::
+
+	In [12]: keyboard = pcap.devices[1].configurations[0].interfaces[0].endpoints[0].keyboard
+
+	In [13]: keyboard
+	Out[13]: <Keyboard keystrokes=668>
+
+Notice that the ``Keyboard`` object has identified 668 keystrokes for this
+endpoint. Let's extract them::
+
+	In [14]: keyboard.keystrokes
+	Out[14]: '[RIGHT_GUI]rxterm -geometry 12x1+0+0\necho k\n[RIGHT_GUI]rxterm -geometry 12x1+75+0\necho e\n[RIGHT_GUI]rxterm -geometry 12x1+150+0\necho y\n[RIGHT_GUI]rxterm -geometry 12x1+225+0\necho {\n[RIGHT_GUI]rxterm -geometry 12x1+300+0\necho c\n[RIGHT_GUI]rxterm -geometry 12x1+375+0\necho 4\n[RIGHT_GUI]rxterm -geometry 12x1+450+0\necho 8\n[RIGHT_GUI]rxterm -geometry 12x1+525+0\necho b\n[RIGHT_GUI]rxterm -geometry 12x1+600+0\necho a\n[RIGHT_GUI]rxterm -geometry 12x1+675+0\necho 9\n[RIGHT_GUI]rxterm -geometry 12x1+0+40\necho 9\n[RIGHT_GUI]rxterm -geometry 12x1+75+40\necho 3\n[RIGHT_GUI]rxterm -geometry 12x1+150+40\necho d\n[RIGHT_GUI]rxterm -geometry 12x1+225+40\necho 3\n[RIGHT_GUI]rxterm -geometry 12x1+300+40\necho 5\n[RIGHT_GUI]rxterm -geometry 12x1+450+40\necho c\n[RIGHT_GUI]rxterm -geometry 12x1+375+40\necho 3\n[RIGHT_GUI]rxterm -geometry 12x1+525+40\necho a\n[RIGHT_GUI]rxterm -geometry 12x1+600+40\necho }\n'
+
+	In [15]: print(keyboard.keystrokes)
+	[RIGHT_GUI]rxterm -geometry 12x1+0+0
+	echo k
+	[RIGHT_GUI]rxterm -geometry 12x1+75+0
+	echo e
+	[RIGHT_GUI]rxterm -geometry 12x1+150+0
+	echo y
+	[RIGHT_GUI]rxterm -geometry 12x1+225+0
+	echo {
+	[RIGHT_GUI]rxterm -geometry 12x1+300+0
+	echo c
+	[RIGHT_GUI]rxterm -geometry 12x1+375+0
+	echo 4
+	[RIGHT_GUI]rxterm -geometry 12x1+450+0
+	echo 8
+	[RIGHT_GUI]rxterm -geometry 12x1+525+0
+	echo b
+	[RIGHT_GUI]rxterm -geometry 12x1+600+0
+	echo a
+	[RIGHT_GUI]rxterm -geometry 12x1+675+0
+	echo 9
+	[RIGHT_GUI]rxterm -geometry 12x1+0+40
+	echo 9
+	[RIGHT_GUI]rxterm -geometry 12x1+75+40
+	echo 3
+	[RIGHT_GUI]rxterm -geometry 12x1+150+40
+	echo d
+	[RIGHT_GUI]rxterm -geometry 12x1+225+40
+	echo 3
+	[RIGHT_GUI]rxterm -geometry 12x1+300+40
+	echo 5
+	[RIGHT_GUI]rxterm -geometry 12x1+450+40
+	echo c
+	[RIGHT_GUI]rxterm -geometry 12x1+375+40
+	echo 3
+	[RIGHT_GUI]rxterm -geometry 12x1+525+40
+	echo a
+	[RIGHT_GUI]rxterm -geometry 12x1+600+40
+	echo }
+
+The `[RIGHT_GUI]` means that the person typing pressed the right GUI key, such
+as the Windows key. The rest of the challenge is simply interpreting those
+keystrokes as commands and finding the one of them is out of order.
+
+Flag: ``key[c48ba993d353ca]``
+
+*********
+Resources
+*********
+* `dongle.pcap <https://github.com/Owlz/usb_pcap/blob/master/docs/build/html/examples/deardiary?raw=true>`_
+* `deardiary.py <https://raw.githubusercontent.com/Owlz/formatStringExploiter/master/docs/examples/deardiary.py>`_
+* `deardiary github <https://github.com/ctfs/write-ups-2016/blob/39e9a0e2adca3a3d0d39a6ae24fa51196282aae4/icectf-2016/pwn/dear-diary-60/readme.md>`_

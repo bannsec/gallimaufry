@@ -19,6 +19,14 @@ Welcome to knuckles's documentation!
    USB
    Device
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples
+   :glob:
+
+   examples/*
+
+
 
 Indices and tables
 ==================
