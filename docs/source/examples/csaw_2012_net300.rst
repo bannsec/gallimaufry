@@ -247,6 +247,4 @@ Flag: ``key[c48ba993d353ca]``
 *********
 Resources
 *********
-* `dongle.pcap <https://github.com/Owlz/usb_pcap/blob/master/docs/build/html/examples/deardiary?raw=true>`_
-* `deardiary.py <https://raw.githubusercontent.com/Owlz/formatStringExploiter/master/docs/examples/deardiary.py>`_
-* `deardiary github <https://github.com/ctfs/write-ups-2016/blob/39e9a0e2adca3a3d0d39a6ae24fa51196282aae4/icectf-2016/pwn/dear-diary-60/readme.md>`_
+* `dongle.pcap <https://github.com/Owlz/usb_pcap/blob/master/docs/source/examples/csaw_2012_net300.pcap?raw=true>`_
