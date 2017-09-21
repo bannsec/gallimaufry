@@ -100,7 +100,7 @@ class USB:
 
     @property
     def summary(self) -> str:
-        """Returns a textual summary of this pcap."""
+        """str: a textual summary of this pcap."""
         summary = "PCAP: {0}\n".format(self.pcap_filename)
         summary += "Total Packets: {0}\n\n".format(len(self.pcap))
 
@@ -115,13 +115,13 @@ class USB:
         return summary.strip()
 
     @property
-    def pcap(self) -> str:
-        """Returns the json dump of this pcap."""
+    def pcap(self) -> list:
+        """list: list of dictionaries describing the packets of this pcap."""
         return self.__pcap
 
     @property
     def pcap_filename(self) -> str:
-        """Path to pcap file."""
+        """str: full path to pcap file."""
         return self.__pcap_filename
 
     @pcap_filename.setter
@@ -136,7 +136,7 @@ class USB:
 
     @property
     def devices(self) -> Devices:
-        """The USB devices discovered."""
+        """list: The USB devices discovered (USB.Device.Device)."""
         return self.__devices
 
     @devices.setter

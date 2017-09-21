@@ -11,6 +11,7 @@ Welcome to knuckles's documentation!
    :caption: General
 
    Overview
+   Installation
 
 .. toctree::
    :maxdepth: 2
