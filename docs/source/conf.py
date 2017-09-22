@@ -19,6 +19,7 @@
 #
 import os
 import sys
+from USB.Version import version
 # sys.path.insert(0, os.path.abspath('.'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -62,7 +63,7 @@ author = 'Michael Bann'
 # built documents.
 #
 # The short X.Y version.
-version = '1.0'
+# version = version
 # The full version, including alpha/beta/rc tags.
 release = '1.0'
 

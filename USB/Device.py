@@ -8,8 +8,8 @@ class Device:
     """Defines a USB device.
     
     Args:
-        device_descriptor: The device descriptor packet to use in generating this device object.
-        pcap: The full list of packets as returned by tshark.
+        device_descriptor (dict): The device descriptor packet to use in generating this device object.
+        pcap (list): The full list of packets as returned by tshark.
 
     """
 
@@ -118,7 +118,7 @@ class Device:
 
     @property
     def pcap(self):
-        """The packet capture specific to this USB device."""
+        """list: The packet capture specific to this USB device."""
         return self.__pcap
 
     @pcap.setter
@@ -131,7 +131,7 @@ class Device:
 
     @property
     def configurations(self):
-        """Configurations for this USB Device"""
+        """list: Configurations for this USB Device"""
         return self.__configurations
 
     @configurations.setter
@@ -140,7 +140,7 @@ class Device:
 
     @property
     def string_descriptors(self) -> dict:
-        """A dictionary of string descriptors registered and returned by the device."""
+        """dict: A dictionary of string descriptors registered and returned by the device."""
         return self.__string_descriptors
 
     @string_descriptors.setter
@@ -149,7 +149,7 @@ class Device:
 
     @property
     def iSerialNumber(self) -> int:
-        """The string index for Serial Number."""
+        """int: The string index for Serial Number."""
         return self.__iSerialNumber
 
     @iSerialNumber.setter
@@ -158,7 +158,7 @@ class Device:
 
     @property
     def iProduct(self) -> int:
-        """The string index for product."""
+        """int: The string index for product."""
         return self.__iProduct
 
     @iProduct.setter
@@ -167,7 +167,7 @@ class Device:
 
     @property
     def iManufacturer(self) -> int:
-        """The string index for manufacturer."""
+        """int: The string index for manufacturer."""
         return self.__iManufacturer
 
     @iManufacturer.setter
@@ -176,12 +176,12 @@ class Device:
 
     @property
     def product(self) -> str:
-        """The USB Product Name."""
+        """str: The USB Product Name."""
         return self.__product
 
     @property
     def idProduct(self) -> int:
-        """The USB Product ID."""
+        """int: The USB Product ID."""
         return self.__idProduct
 
     @idProduct.setter
@@ -191,12 +191,12 @@ class Device:
 
     @property
     def vendor(self) -> str:
-        """Returns string representation of vendor name."""
+        """str: Returns string representation of vendor name."""
         return self.__vendor
 
     @property
     def idVendor(self) -> int:
-        """The USB Vendor ID."""
+        """int: The USB Vendor ID."""
         return self.__idVendor
 
     @idVendor.setter
@@ -206,12 +206,12 @@ class Device:
 
     @property
     def device_version(self) -> str:
-        """The device version as a string."""
+        """str: The device version as a string."""
         return "{0}.{1}.{2}".format(self.device_major, self.device_minor, self.device_subminor)
 
     @property
     def device_subminor(self) -> int:
-        """Device specific subminor version"""
+        """int: Device specific subminor version"""
         return self.__device_subminor
 
     @device_subminor.setter
@@ -220,7 +220,7 @@ class Device:
 
     @property
     def device_minor(self) -> int:
-        """Device specific minor version."""
+        """int: Device specific minor version."""
         return self.__device_minor
 
     @device_minor.setter
@@ -229,7 +229,7 @@ class Device:
 
     @property
     def device_major(self) -> int:
-        """Device specific major version"""
+        """int: Device specific major version"""
         return self.__device_major
 
     @device_major.setter
@@ -239,12 +239,12 @@ class Device:
 
     @property
     def bluetooth_version(self) -> str:
-        """The bluetooth version this device complies to as a string."""
+        """str: The bluetooth version this device complies to as a string."""
         return "{0}.{1}.{2}".format(self.bluetooth_major, self.bluetooth_minor, self.bluetooth_subminor)
 
     @property
     def bluetooth_subminor(self) -> int:
-        """The maximum subminor bluetooth version this device conforms to."""
+        """int: The maximum subminor bluetooth version this device conforms to."""
         return self.__bluetooth_subminor
 
     @bluetooth_subminor.setter
@@ -253,7 +253,7 @@ class Device:
 
     @property
     def bluetooth_minor(self) -> int:
-        """The maximum minor bluetooth version this device conforms to."""
+        """int: The maximum minor bluetooth version this device conforms to."""
         return self.__bluetooth_minor
 
     @bluetooth_minor.setter
@@ -262,7 +262,7 @@ class Device:
 
     @property
     def bluetooth_major(self) -> int:
-        """The maximum major bluetooth version this device conforms to."""
+        """int: The maximum major bluetooth version this device conforms to."""
         return self.__bluetooth_major
 
     @bluetooth_major.setter
@@ -272,7 +272,7 @@ class Device:
 
     @property
     def bus_id(self) -> int:
-        """The usb bus id this Device communicates on."""
+        """int: The usb bus id this Device communicates on."""
         return self.__bus_id
 
     @bus_id.setter
@@ -281,7 +281,7 @@ class Device:
 
     @property
     def device_address(self) -> int:
-        """The usb device address this Device communicates on."""
+        """int: The usb device address this Device communicates on."""
         return self.__device_address
 
     @device_address.setter

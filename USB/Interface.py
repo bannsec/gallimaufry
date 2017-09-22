@@ -6,12 +6,18 @@ from .Classes import get_class_handler
 
 @enforce.runtime_validation
 class Interface:
+    """Describes a USB Interface.
+
+    Args:
+        interface_descriptor_packet (dict): json of the interface descriptor packet that defines this interface.
+        pcap (list): list of pcap packets from capture.
+
+    Note:
+        This is generally created automatically from the
+        USB.Configuration.Configuration class.
+    """
 
     def __init__(self,interface_descriptor_packet, pcap):
-        """
-        interface_descriptor_packet == json of the interface descriptor packet that defines this interface.
-        pacp = json pcap
-        """
         # Store the pcap
         self.pcap = pcap
 
@@ -52,7 +58,7 @@ class Interface:
 
     @property
     def summary(self) -> str:
-        """Textual summary of this interface."""
+        """str: Textual summary of this interface."""
         summary = "Interface {0}\n".format(self.bInterfaceNumber)
         summary += "-"*(len(summary)-1) + "\n"
 
@@ -78,6 +84,7 @@ class Interface:
 
     @property
     def protocol_str(self) -> typing.Union[str, type(None)]:
+        """str: String representation of interface's USB protocol."""
         return self.__protocol_str
 
     @protocol_str.setter
@@ -86,6 +93,7 @@ class Interface:
 
     @property
     def subclass_str(self) -> typing.Union[str, type(None)]:
+        """str: String representation of the interface's USB subclass."""
         return self.__subclass_str
 
     @subclass_str.setter
@@ -108,6 +116,7 @@ class Interface:
 
     @property
     def endpoints(self) -> typing.List[Endpoint]:
+        """list: List of Endpoints for this Interface."""
         return self.__endpoints
 
     @endpoints.setter
@@ -116,9 +125,7 @@ class Interface:
 
     @property
     def hid(self) -> typing.Union[type(None), HID]:
-        """
-        Returns the HID object for this Interface, if one exists, otherwise None
-        """
+        """USB.HID.HID: Returns the HID object for this Interface, if one exists, otherwise None"""
         return self.__hid
 
     @hid.setter
@@ -127,6 +134,7 @@ class Interface:
 
     @property
     def iInterface(self) -> int:
+        """int: Index of String Descriptor Describing this interface."""
         return self.__iInterface
 
     @iInterface.setter
@@ -135,6 +143,7 @@ class Interface:
 
     @property
     def bInterfaceProtocol(self) -> int:
+        """int: Protocol Code (Assigned by USB Org) for this interface."""
         return self.__bInterfaceProtocol
 
     @bInterfaceProtocol.setter
@@ -143,6 +152,7 @@ class Interface:
 
     @property
     def bInterfaceSubClass(self) -> int:
+        """int: Subclass Code (Assigned by USB Org) for this interface."""
         return self.__bInterfaceSubClass
 
     @bInterfaceSubClass.setter
@@ -151,6 +161,7 @@ class Interface:
 
     @property
     def bInterfaceClass(self) -> int:
+        """int: Class Code (Assigned by USB Org) for this interface."""
         return self.__bInterfaceClass
 
     @bInterfaceClass.setter
@@ -159,11 +170,12 @@ class Interface:
 
     @property
     def class_str(self) -> str:
-        """Returns the class of this interface as a string."""
+        """str: Returns the class of this interface as a string."""
         return USB.Classes.classes[self.bInterfaceClass]
 
     @property
     def bNumEndpoints(self) -> int:
+        """int: Number of Endpoints used for this interface"""
         return self.__bNumEndpoints
 
     @bNumEndpoints.setter
@@ -172,6 +184,7 @@ class Interface:
 
     @property
     def bAlternateSetting(self) -> int:
+        """int: Value used to select alternative setting"""
         return self.__bAlternateSetting
 
     @bAlternateSetting.setter
@@ -180,6 +193,7 @@ class Interface:
 
     @property
     def bInterfaceNumber(self) -> int:
+        """int: Number of Interface"""
         return self.__bInterfaceNumber
 
     @bInterfaceNumber.setter

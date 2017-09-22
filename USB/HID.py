@@ -2,12 +2,13 @@ import enforce
 
 @enforce.runtime_validation
 class HID:
+    """Describes a USB HID.
+
+    Args:
+        hid_descriptor_packet (dict): hid_descriptor_packet
+    """
 
     def __init__(self, hid_descriptor_packet):
-        """
-        hid_descriptor_packet = json of hid_descriptor_packet
-        """
-        
         self._parse_hid_descriptor_packet(hid_descriptor_packet)
 
     def _parse_hid_descriptor_packet(self, hid_descriptor_packet):

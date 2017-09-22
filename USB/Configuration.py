@@ -3,18 +3,22 @@ import logging
 
 logger = logging.getLogger("USB.Configuration")
 
+import typing
+from collections import OrderedDict
+
 @enforce.runtime_validation
 class Configuration:
+    """Represents a USB Configuration.
+
+    Args:
+        packet (dict):  json packet containing the descriptor for this object
+        pcap (list): the pcap json blob
+
+
+    Ref: http://www.beyondlogic.org/usbnutshell/usb5.shtml#ConfigurationDescriptors
+    """
 
     def __init__(self, packet, pcap):
-        """
-        Represents a USB Configuration.
-
-        packet == json packet containing the descriptor for this object
-        pcap == the pcap json blob
-
-        Ref: http://www.beyondlogic.org/usbnutshell/usb5.shtml#ConfigurationDescriptors
-        """
         self.pcap = pcap
 
         self._parse_configuration_descriptor(packet)
@@ -73,8 +77,17 @@ class Configuration:
     ##############
 
     @property
+    def pcap(self) -> typing.List[OrderedDict]:
+        """list: List of packets relevant to this Configuration."""
+        return self.__pcap
+
+    @pcap.setter
+    def pcap(self, pcap: typing.List[OrderedDict]) -> None:
+        self.__pcap = pcap
+
+    @property
     def summary(self) -> str:
-        """Textual summary of this Configuration."""
+        """str: Textual summary of this Configuration."""
         summary  = "Configuration {0}\n".format(self.bConfigurationValue)
         summary += "-" * (len(summary) - 1) + "\n"
 
@@ -95,7 +108,7 @@ class Configuration:
 
     @property
     def interfaces(self) -> list:
-        """Each USB Configuration has at least one interface."""
+        """list: Each USB Configuration has at least one interface."""
         return self.__interfaces
 
     @interfaces.setter
@@ -104,7 +117,7 @@ class Configuration:
 
     @property
     def bMaxPower(self) -> int:
-        """The maximum power this configuration will drain from the bus, in mA."""
+        """int: The maximum power this configuration will drain from the bus, in mA."""
         return self.__bMaxPower
 
     @bMaxPower.setter
@@ -113,7 +126,7 @@ class Configuration:
 
     @property
     def remote_wakeup(self) -> bool:
-        """Does this configuration support remote wakeup?"""
+        """bool: Does this configuration support remote wakeup?"""
         return self.__remote_wakeup
 
     @remote_wakeup.setter
@@ -122,7 +135,7 @@ class Configuration:
 
     @property
     def legacy_10bus_powered(self) -> bool:
-        """Is this legacy 10 bus powered?"""
+        """bool: Is this legacy 10 bus powered?"""
         return self.__legacy_10bus_powered
 
     @legacy_10bus_powered.setter
@@ -131,7 +144,7 @@ class Configuration:
 
     @property
     def self_powered(self) -> bool:
-        """Is this configuration self powered?"""
+        """bool: Is this configuration self powered?"""
         return self.__self_powered
 
     @self_powered.setter
@@ -140,7 +153,7 @@ class Configuration:
 
     @property
     def iConfiguration(self) -> int:
-        """The string descriptor index for this configuration."""
+        """int: The string descriptor index for this configuration."""
         return self.__iConfiguration
 
     @iConfiguration.setter
@@ -149,7 +162,7 @@ class Configuration:
 
     @property
     def bConfigurationValue(self) -> int:
-        """The value used to select this configuration."""
+        """int: The value used to select this configuration."""
         return self.__bConfigurationValue
 
     @bConfigurationValue.setter
@@ -158,7 +171,7 @@ class Configuration:
 
     @property
     def bNumInterfaces(self) -> int:
-        """The number of interfaces associated with this Configuration Descriptor."""
+        """int: The number of interfaces associated with this Configuration Descriptor."""
         return self.__bNumInterfaces
 
     @bNumInterfaces.setter

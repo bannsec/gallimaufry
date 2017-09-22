@@ -19,6 +19,10 @@ Welcome to knuckles's documentation!
 
    USB
    Device
+   Configuration
+   Interface
+   Endpoint
+   HID
 
 .. toctree::
    :maxdepth: 2

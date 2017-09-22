@@ -3,6 +3,8 @@ import logging
 
 logger = logging.getLogger("USB.Endpoint")
 
+import typing
+
 # Transfer Types
 TT_CONTROL     = 0
 TT_ISOCHRONOUS = 1
@@ -11,13 +13,19 @@ TT_INTERRUPT   = 3
 
 @enforce.runtime_validation
 class Endpoint:
+    """Describes a USB Endpoint.
+
+    Args:
+        endpoint_descriptor_packet (dict): Packet for endpoint descriptor.
+        pcap (list): list of packets in capture.
+        interface (USB.Interface.Interface): pointer to parent interface object.
+
+    Note:
+        This class is generally automatically instantiated through
+        USB.Interface.Interface.
+    """
 
     def __init__(self, endpoint_descriptor_packet, pcap, interface):
-        """
-        endpoint_descriptor_packet = json packet for endpoint descriptor
-        pcap = json packet capture
-        interface = pointer to parent interface object
-        """
         self.interface = interface
 
         self._parse_endpoint_descriptor_packet(endpoint_descriptor_packet)
@@ -45,7 +53,7 @@ class Endpoint:
 
     @property
     def summary(self) -> str:
-        """Returns textual summary of this Endpoint."""
+        """str: Returns textual summary of this Endpoint."""
         summary = "Endpoint {0}\n".format(self.number)
         summary += "-"*(len(summary)-1) + "\n"
         summary += "direction: {0}\n".format(self.direction_str)
@@ -56,7 +64,7 @@ class Endpoint:
 
     @property
     def interface(self):
-        """Parent Interface object."""
+        """USB.Interface.Interface: Parent Interface object."""
         return self.__interface
 
     @interface.setter
@@ -65,7 +73,7 @@ class Endpoint:
 
     @property
     def pcap(self):
-        """Packet Capture json packets that are relevant to this specific Endpoint."""
+        """list: Packet Capture json packets that are relevant to this specific Endpoint."""
         return self.__pcap
 
     @pcap.setter
@@ -76,8 +84,8 @@ class Endpoint:
                 ]
 
     @property
-    def usage_type(self):
-        """Only applicable for Iso Mode."""
+    def usage_type(self) -> typing.Union[int, type(None)]:
+        """int: Only applicable for Iso Mode."""
         if self.transfer_type != TT_ISOCHRONOUS:
             logger.error("Usage Type is only applicable for Endpoints of mode Isochronous")
             return None
@@ -86,6 +94,7 @@ class Endpoint:
 
     @property
     def usage_type_str(self):
+        """str: String representation of Endpoint usage type."""
         t = self.usage_type
         if t == None:
             return None
@@ -100,8 +109,8 @@ class Endpoint:
         return types[t]
 
     @property
-    def synchronisation_type(self):
-        """Only applicable for Iso Mode."""
+    def synchronisation_type(self) -> typing.Union[int, type(None)]:
+        """int: Only applicable for Iso Mode."""
         if self.transfer_type != TT_ISOCHRONOUS:
             logger.error("Synchronisation Type is only applicable for Endpoints of mode Isochronous")
             return None
@@ -110,6 +119,7 @@ class Endpoint:
 
     @property
     def synchronisation_type_str(self):
+        """str: String representation of synchronization type."""
         t = self.synchronisation_type
         if t == None:
             return None
@@ -125,10 +135,12 @@ class Endpoint:
 
     @property
     def transfer_type(self) -> int:
+        """int: What type of transfering will this endpoint use?"""
         return self.bmAttributes & 0b11
 
     @property
     def transfer_type_str(self) -> str:
+        """str: String representation of transfer type."""
         types = {
                 TT_CONTROL: 'Control',
                 TT_ISOCHRONOUS: 'Isochronous',
@@ -139,18 +151,22 @@ class Endpoint:
 
     @property
     def number(self) -> int:
+        """int: This Endpoint's number."""
         return self.bEndpointAddress & 0b111
 
     @property
     def direction(self) -> int:
+        """int: This Endpoint's direction."""
         return (self.bEndpointAddress >> 7) & 1
 
     @property
     def direction_str(self) -> str:
+        """str: String representation of this Endpoint's direction."""
         return "Out" if self.direction == 0 else "In"
 
     @property
     def bInterval(self) -> int:
+        """int: Interval for polling endpoint data transfers."""
         return self.__bInterval
 
     @bInterval.setter
@@ -159,6 +175,7 @@ class Endpoint:
 
     @property
     def wMaxPacketSize(self) -> int:
+        """int: Maximum Packet Size this endpoint is capable of sending or receiving."""
         return self.__wMaxPacketSize
 
     @wMaxPacketSize.setter
@@ -167,6 +184,7 @@ class Endpoint:
 
     @property
     def bmAttributes(self) -> int:
+        """int: Bitmap of attributes for this Endpoint."""
         return self.__bmAttributes
 
     @bmAttributes.setter
@@ -175,6 +193,7 @@ class Endpoint:
 
     @property
     def bEndpointAddress(self) -> int:
+        """int: This Endpoint's address."""
         return self.__bEndpointAddress
 
     @bEndpointAddress.setter
