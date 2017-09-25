@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# knuckles documentation build configuration file, created by
+# gallimaufry documentation build configuration file, created by
 # sphinx-quickstart on Mon Sep  4 23:30:00 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -19,7 +19,7 @@
 #
 import os
 import sys
-from USB.Version import version
+from Gallimaufry.Version import version
 # sys.path.insert(0, os.path.abspath('.'))
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -54,7 +54,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'knuckles'
+project = 'gallimaufry'
 copyright = '2017, Michael Bann'
 author = 'Michael Bann'
 
@@ -127,7 +127,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'knucklesdoc'
+htmlhelp_basename = 'gallimaufrydoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -154,7 +154,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'knuckles.tex', 'knuckles Documentation',
+    (master_doc, 'gallimaufry.tex', 'gallimaufry Documentation',
      'Michael Bann', 'manual'),
 ]
 
@@ -164,7 +164,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'knuckles', 'knuckles Documentation',
+    (master_doc, 'gallimaufry', 'gallimaufry Documentation',
      [author], 1)
 ]
 
@@ -175,8 +175,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'knuckles', 'knuckles Documentation',
-     author, 'knuckles', 'One line description of project.',
+    (master_doc, 'gallimaufry', 'gallimaufry Documentation',
+     author, 'gallimaufry', 'One line description of project.',
      'Miscellaneous'),
 ]
 

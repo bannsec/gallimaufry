@@ -14,7 +14,7 @@ class Interface:
 
     Note:
         This is generally created automatically from the
-        USB.Configuration.Configuration class.
+        Gallimaufry.Configuration.Configuration class.
     """
 
     def __init__(self,interface_descriptor_packet, pcap):
@@ -125,7 +125,7 @@ class Interface:
 
     @property
     def hid(self) -> typing.Union[type(None), HID]:
-        """USB.HID.HID: Returns the HID object for this Interface, if one exists, otherwise None"""
+        """Gallimaufry.HID.HID: Returns the HID object for this Interface, if one exists, otherwise None"""
         return self.__hid
 
     @hid.setter
@@ -171,7 +171,7 @@ class Interface:
     @property
     def class_str(self) -> str:
         """str: Returns the class of this interface as a string."""
-        return USB.Classes.classes[self.bInterfaceClass]
+        return Gallimaufry.Classes.classes[self.bInterfaceClass]
 
     @property
     def bNumEndpoints(self) -> int:
@@ -200,4 +200,4 @@ class Interface:
     def bInterfaceNumber(self, bInterfaceNumber: int) -> None:
         self.__bInterfaceNumber = bInterfaceNumber
 
-import USB.Classes
+import Gallimaufry.Classes

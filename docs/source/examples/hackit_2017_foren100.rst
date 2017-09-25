@@ -18,7 +18,7 @@ USB packets. Based on the nature of the protocol, it could be many things, and
 the method of transferring that information does not often allow you to simply
 run ``strings`` to discover what it is. Let's open it up with ``usb_pcap``::
 
-    In [1]: from USB import USB
+    In [1]: from Gallimaufry import USB
 
     In [2]: pcap = USB("./task.pcap")
 

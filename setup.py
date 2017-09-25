@@ -3,18 +3,21 @@ from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 import os, sys
-from USB.Version import version
-
+# from Gallimaufry.Version import version
 here = os.path.abspath(os.path.dirname(__file__))
+
+# TODO: This is a hack due to import crap. Fix later.
+with open(os.path.join(here, "Gallimaufry", "Version.py"),"r") as f:
+    exec(f.read())
 
 long_description = "See website for more info."
 
 setup(
-    name='usb_pcap',
+    name='gallimaufry',
     version=version,
     description='Tool to ease parsing of USB information out of pcaps',
     long_description=long_description,
-    url='https://github.com/owlz/usb_pcap',
+    url='https://github.com/owlz/gallimaufry',
     author='Michael Bann',
     author_email='self@bannsecurity.com',
     license='MIT',

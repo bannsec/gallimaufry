@@ -4,7 +4,7 @@ Initial stages of a command line USB PCAP parser.
 Once installed, you can load up a pcap and analyze it:
 
 ```python
-In [1]: from USB import USB
+In [1]: from Gallimaufry import USB
 
 In [2]: usb = USB("./task.pcap")
 
@@ -32,12 +32,12 @@ $ pip install .
 There is an auto-build Docker container that has everything set up already. Download it with the following:
 
 ```bash
-$ sudo docker pull bannsec/usb_pcap
+$ sudo docker pull bannsec/Gallimaufry
 ```
 
 Run it:
 
 ```bash
-$ sudo docker run -it --rm -v $PWD:/my_mount bannsec/usb_pcap
+$ sudo docker run -it --rm -v $PWD:/my_mount bannsec/Gallimaufry
 ```
 

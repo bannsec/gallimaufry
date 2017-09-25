@@ -1,7 +1,7 @@
 USB
 =============
 
-.. automodule:: USB.USB
+.. automodule:: Gallimaufry.USB
     :members:
     :undoc-members:
     :show-inheritance:
