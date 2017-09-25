@@ -7,14 +7,14 @@ pre-build Docker image.
 Manual/pypi
 ***********
 Manual installation simply involves ensuring that you have ``tshark`` installed
-and then installing the ``usb_pcap`` package. You can do that as follows:
+and then installing the ``gallimaufry`` package. You can do that as follows:
 
 .. code-block:: bash
 
     $ # Install tshark
     $ sudo apt-get update && sudo apt-get install -y tshark python3
     $ # Optionally, create a virtual environment
-    $ mkvirtualenv --python=$(which python3) -i usb_pcap usb_pcap
+    $ mkvirtualenv --python=$(which python3) -i gallimaufry gallimaufry
 
 ******
 Docker
@@ -26,13 +26,13 @@ To download the latest version, do the following:
 
 .. code-block:: bash
 
-    $ sudo docker pull bannsec/usb_pcap
+    $ sudo docker pull bannsec/gallimaufry
 
 You can run the container as follows:
 
 .. code-block:: bash
 
-    $ sudo docker run -it --rm -v $PWD:/pcaps bannsec/usb_pcap
+    $ sudo docker run -it --rm -v $PWD:/pcaps bannsec/gallimaufry
 
 That will drop you into a shell where you can run the tool. It will also mount
 your current directory inside the container under ``/pcaps``.

@@ -16,7 +16,7 @@ Step 0: Analysis
 At this point, we're not quite sure what data is being passed around in these
 USB packets. Based on the nature of the protocol, it could be many things, and
 the method of transferring that information does not often allow you to simply
-run ``strings`` to discover what it is. Let's open it up with ``usb_pcap``::
+run ``strings`` to discover what it is. Let's open it up with ``gallimaufry``::
 
     In [1]: Gallimaufry USB import USB
 
@@ -28,13 +28,13 @@ run ``strings`` to discover what it is. Let's open it up with ``usb_pcap``::
 
 So we've parsed the pcap file. There is a warning stating that we expected 1
 Descriptor but didn't find it. This is OK, but it's a good thing to keep in
-mind. Basically, ``usb_pcap`` relies on parsing the same information that your
+mind. Basically, ``gallimaufry`` relies on parsing the same information that your
 USB device sends to your host. This allows us to know what type of device it
 is, and other useful information for proper parsing. The warning above means
 that the Descriptor told us we should expect 1 of them, but we found none. This
 could be for any number of reasons, mostly likely that the Descriptor we're
 parsing came before our pcap. Even if you have no Descriptors, however, you can
-still use ``usb_pcap`` to parse the data, but you have to do a little more work
+still use ``gallimaufry`` to parse the data, but you have to do a little more work
 yourself. This will be covered in the example of Pico 2017.
 
 Now that we've loaded up the pcap, we should take a look at what's inside it.
@@ -42,7 +42,7 @@ With smaller pcap files, the easiest way is probably to use the ``summary``
 property::
 
 	In [5]: print(pcap.summary)
-	PCAP: /home/user/opt/usb_pcap/examples/keyboard/csaw2012/dongle.pcap
+	PCAP: /home/user/opt/gallimaufry/examples/keyboard/csaw2012/dongle.pcap
 	Total Packets: 2844
 
 	Devices 
@@ -247,4 +247,4 @@ Flag: ``key[c48ba993d353ca]``
 *********
 Resources
 *********
-* `dongle.pcap <https://github.com/Owlz/usb_pcap/blob/master/docs/source/examples/csaw_2012_net300.pcap?raw=true>`_
+* `dongle.pcap <https://github.com/Owlz/gallimaufry/blob/master/docs/source/examples/csaw_2012_net300.pcap?raw=true>`_

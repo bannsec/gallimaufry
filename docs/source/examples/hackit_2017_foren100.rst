@@ -16,7 +16,7 @@ Step 0: Analysis
 At this point, we're not quite sure what data is being passed around in these
 USB packets. Based on the nature of the protocol, it could be many things, and
 the method of transferring that information does not often allow you to simply
-run ``strings`` to discover what it is. Let's open it up with ``usb_pcap``::
+run ``strings`` to discover what it is. Let's open it up with ``gallimaufry``::
 
     In [1]: from Gallimaufry import USB
 
@@ -30,7 +30,7 @@ With smaller pcap files, the easiest way is probably to use the ``summary``
 property::
 
     In [4]: print(pcap.summary)
-    PCAP: /home/user/opt/usb_pcap/examples/keyboard/HackIT2017/task.pcap
+    PCAP: /home/user/opt/gallimaufry/examples/keyboard/HackIT2017/task.pcap
     Total Packets: 835
 
     Devices
@@ -139,7 +139,7 @@ endpoint. Let's extract them::
 At this point you may notice there are a bunch of ``[Up Arrow]`` and
 ``[Down Arrow]`` in the output. This is ``usp_pcap``'s way of telling you that
 arrow characters were pushed. Thus, simply printing out the output like this,
-while a good start, won't get us all the way. ``usb_pcap`` has the ability to
+while a good start, won't get us all the way. ``gallimaufry`` has the ability to
 attempt to interpret keystrokes in different settings. As of writing, the only
 setting it is interpreting is a notepad like setting. The goal for this setting
 is to interpret characters (such as the arrows) and maintain state of a cursor
@@ -161,4 +161,4 @@ Flag: ``flag{k3yb0ard_sn4ke_2.0}``
 *********
 Resources
 *********
-* `task.pcap <https://github.com/Owlz/usb_pcap/blob/master/docs/source/examples/hackit_2017_foren100.pcap?raw=true>`_
+* `task.pcap <https://github.com/Owlz/gallimaufry/blob/master/docs/source/examples/hackit_2017_foren100.pcap?raw=true>`_
