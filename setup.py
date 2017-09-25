@@ -17,7 +17,7 @@ setup(
     version=version,
     description='Tool to ease parsing of USB information out of pcaps',
     long_description=long_description,
-    url='https://github.com/owlz/gallimaufry',
+    url='https://github.com/bannsec/gallimaufry',
     author='Michael Bann',
     author_email='self@bannsecurity.com',
     license='MIT',
