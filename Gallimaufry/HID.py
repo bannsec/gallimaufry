@@ -28,6 +28,7 @@ class HID:
 
     @property
     def wDescriptorLength(self) -> int:
+        """int: Numeric expression that is the total size of the optional descriptor."""
         return self.__wDescriptorLength
 
     @wDescriptorLength.setter
@@ -36,6 +37,7 @@ class HID:
 
     @property
     def bDescriptorType(self) -> int:
+        """int: Type of this descriptor."""
         return self.__bDescriptorType
 
     @bDescriptorType.setter
@@ -44,6 +46,7 @@ class HID:
 
     @property
     def bNumDescriptors(self) -> int:
+        """int: Number of descriptors in this HID object."""
         return self.__bNumDescriptors
 
     @bNumDescriptors.setter
@@ -52,6 +55,7 @@ class HID:
 
     @property
     def bCountryCode(self) -> int:
+        """int: Country code for this HID."""
         return self.__bCountryCode
 
     @bCountryCode.setter
@@ -60,6 +64,7 @@ class HID:
 
     @property
     def bcdHID(self) -> int:
+        """int: USB Specification Number which this HID complies to."""
         return self.__bcdHID
 
     @bcdHID.setter
