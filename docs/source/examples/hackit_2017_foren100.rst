@@ -137,7 +137,7 @@ endpoint. Let's extract them::
 	3'[Up Arrow][[Up Arrow]l[Up Arrow]#[Up Arrow]{w$[Down Arrow]>b[Down Arrow]ag[Down Arrow][e[Down Arrow]ci.[[Up Arrow][f[Up Arrow]{k[Up Arrow]n$[Up Arrow]ju}[Down Arrow]:[Down Arrow]3[Down Arrow]u[Down Arrow]%=[Up Arrow]~[Up Arrow]y[Up Arrow]6[Up Arrow],'[Down Arrow]p[Down Arrow]b[Down Arrow]7[Down Arrow]%&[Up Arrow]d[Up Arrow]0[Up Arrow]j[Up Arrow]pt[Down Arrow]i[Down Arrow]a[Down Arrow][[Down Arrow]k([Up Arrow]=[Up Arrow]r[Up Arrow]m[Up Arrow]]=[Down Arrow]0[Down Arrow]d[Down Arrow]>[Down Arrow]lc[Up Arrow]*[Up Arrow]_[Up Arrow]{[Up Arrow]j%[Down Arrow]u[Down Arrow]s[Down Arrow]([Down Arrow]*2[Up Arrow]0[Up Arrow]n[Up Arrow]'[Up Arrow];9[Down Arrow]h[Down Arrow]4[Down Arrow]][Down Arrow]y4[Up Arrow]'[Up Arrow]k[Up Arrow];[Up Arrow]+p[Down Arrow]f[Down Arrow]e[Down Arrow]$[Down Arrow]!}[Up Arrow]1[Up Arrow]_[Up Arrow]k[Up Arrow]s&[Down Arrow]s[Down Arrow]2[Down Arrow]c[Down Arrow]%q[Up Arrow]$[Up Arrow].[Up Arrow]![Up Arrow]#,[Down Arrow]s[Down Arrow]0[Down Arrow]c[Down Arrow]z3[Up Arrow]e[Up Arrow]}[Up Arrow]-[Up Arrow]i
 
 At this point you may notice there are a bunch of ``[Up Arrow]`` and
-``[Down Arrow]`` in the output. This is ``usp_pcap``'s way of telling you that
+``[Down Arrow]`` in the output. This is ``gallimaufry``'s way of telling you that
 arrow characters were pushed. Thus, simply printing out the output like this,
 while a good start, won't get us all the way. ``gallimaufry`` has the ability to
 attempt to interpret keystrokes in different settings. As of writing, the only
