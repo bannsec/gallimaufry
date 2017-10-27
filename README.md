@@ -1,4 +1,7 @@
-Initial stages of a command line USB PCAP parser.
+[![Documentation Status](https://readthedocs.org/projects/gallimaufry/badge/?version=latest)](http://gallimaufry.readthedocs.org/en/latest/?badge=latest)
+
+# Docs
+http://gallimaufry.readthedocs.io/en/latest/index.html
 
 # Quick Start
 Once installed, you can load up a pcap and analyze it:
