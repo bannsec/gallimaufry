@@ -1,4 +1,4 @@
-import Colorer
+from . import Colorer
 import enforce
 import typing
 from .Device import Device
