@@ -1,0 +1,12 @@
+language: python
+sudo: enabled
+python:
+    - 3.5
+    - 3.6
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install tshark
+install:
+    - pip install --user .[dev]
+script:
+    - pytest --boxed -n 8 --cov=Gallimaufry tests
