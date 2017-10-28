@@ -7,6 +7,6 @@ before_install:
     - sudo apt-get -qq update
     - sudo apt-get install tshark
 install:
-    - pip install --user .[dev]
+    - pip install .[dev]
 script:
     - pytest --boxed -n 8 --cov=Gallimaufry tests 
