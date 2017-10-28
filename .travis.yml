@@ -1,12 +1,12 @@
 language: python
-sudo: enabled
+sudo: required
+services:
+    - docker
 python:
-    - 3.5
     - 3.6
-before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install tshark
 install:
-    - pip install .[dev]
+    - docker build -t bannsec/gallimaufry .
+    - docker run -d --name gal bannsec/gallimaufry
+    - docker exec -it -u gallimaufry gal bash -c '. ~/.virtualenvs/gallimaufry/bin/activate && cd /home/gallimaufry/gallimaufry/ && pip install .[dev]'
 script:
-    - pytest --boxed -n 8 --cov=Gallimaufry tests 
+    - docker exec -it -u gallimaufry gal bash -c '. ~/.virtualenvs/gallimaufry/bin/activate && cd /home/gallimaufry/gallimaufry/ && pytest --boxed -n 4 --cov=Gallimaufry tests'

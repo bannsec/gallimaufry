@@ -3,18 +3,18 @@ FROM ubuntu:17.04
 RUN apt-get update && apt-get install -y tshark python3 python3-virtualenv
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN adduser usb_parser
+RUN adduser gallimaufry
 
-WORKDIR /home/usb_parser
+WORKDIR /home/gallimaufry
 
-RUN mkdir /home/usb_parser/usb_parser
-RUN mkdir /home/usb_parser/.virtualenvs
+RUN mkdir /home/gallimaufry/gallimaufry
+RUN mkdir /home/gallimaufry/.virtualenvs
 
-COPY . /home/usb_parser/usb_parser/
-RUN chown -R usb_parser:usb_parser /home/usb_parser/.
+COPY . /home/gallimaufry/gallimaufry/
+RUN chown -R gallimaufry:gallimaufry /home/gallimaufry/.
 
-USER usb_parser
+USER gallimaufry
 
-RUN python3 -m virtualenv --python=$(which python3) ~/.virtualenvs/usb_parser
-RUN echo ". ~/.virtualenvs/usb_parser/bin/activate" >> ~/.bashrc
-RUN . ~/.virtualenvs/usb_parser/bin/activate && pip install ipython && cd usb_parser && pip install -e .
+RUN python3 -m virtualenv --python=$(which python3) ~/.virtualenvs/gallimaufry
+RUN echo ". ~/.virtualenvs/gallimaufry/bin/activate" >> ~/.bashrc
+RUN . ~/.virtualenvs/gallimaufry/bin/activate && pip install ipython && cd gallimaufry && pip install -e .
