@@ -13,7 +13,7 @@ http://gallimaufry.readthedocs.io/en/latest/index.html
 Once installed, you can load up a pcap and analyze it:
 
 ```python
-In [1]: from Gallimaufry import USB
+In [1]: from Gallimaufry.USB import USB
 
 In [2]: usb = USB("./task.pcap")
 
