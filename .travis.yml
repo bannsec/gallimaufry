@@ -9,4 +9,4 @@ before_install:
 install:
     - pip install --user .[dev]
 script:
-    - pytest --boxed -n 8 --cov=Gallimaufry tests
+    - pytest --boxed -n 8 --cov=Gallimaufry tests 
