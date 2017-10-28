@@ -1,4 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/gallimaufry/badge/?version=latest)](http://gallimaufry.readthedocs.org/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/bannsec/gallimaufry.svg?branch=master)](https://travis-ci.org/bannsec/gallimaufry)
 
 # Overview
 `Gallimaufry` is a python framework for parsing and working with packet capture files (PCAPs) of USB traffic. It utilizes `tshark` in the backend to perform the initial translation of the packet capture into python. The goal of this framework is to make it easy to parse out information from USB pcaps as well as easy to extend the framework for more USB traffic types.
