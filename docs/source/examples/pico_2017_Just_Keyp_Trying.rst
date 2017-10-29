@@ -118,12 +118,19 @@ Step 1: Extract the Keystrokes
 ******************************
 Since we were not able to auto-parse this pcap, we will need to first extract
 the relevant packets. To do this, let's pull out all packets with the USB
-endpoint number of 0x81::
+endpoint of 1 on bus_id 2 and device_address 1
 
-    In [7]: packets = [packet for packet in pcap.pcap if int(packet['_source']['layers']['usb']['usb.endpoint_number'],16) == 0x81]
+.. NOTE:: Remember that the actual endpoint number is derived from the
+    endpoint_number field (in this case 0x81) by taking the lowest 3 bits.
+    Here, we have 0x81 & 0b111 == 1.
+
+.. code-block:: python
+
+    In [7]: packets = pcap.pcap_filter(bus_id=2, device_address=1, endpoint_number=1)
 
     In [8]: len(packets)
     Out [8]: 66
+
 
 Note here that the number of packets we extracted is the same as the total
 number of packets this capture has. The authors of this challenge were trying

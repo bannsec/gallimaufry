@@ -1,10 +1,13 @@
 from . import Colorer
 import enforce
 import typing
+from collections import OrderedDict
 from .Device import Device
 
 Devices = typing.List[type(Device)]
 Packets = typing.List[typing.Dict]
+PacketsOut = typing.List[OrderedDict]
+TypeIntOptional = typing.Optional[int]
 
 @enforce.runtime_validation
 class USB:
@@ -91,6 +94,23 @@ class USB:
 
         return True
 
+    def pcap_filter(self, bus_id: TypeIntOptional = None, device_address: TypeIntOptional = None, endpoint_number: TypeIntOptional = None) -> PacketsOut:
+        """list: Return only those packets that match ALL of the input selection."""
+
+        pcap = self.pcap
+
+        if bus_id is not None:
+            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb']['usb.bus_id'],10) == bus_id]
+
+        if device_address is not None:
+            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb']['usb.device_address'],10) == device_address]
+
+        if endpoint_number is not None:
+            # Remember, the endpoint number is the lower 3 bits of the actual endpoint_number field
+            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb']['usb.endpoint_number'],16) & 0b111 == endpoint_number]
+
+        return pcap
+
     def __repr__(self) -> str:
         return "<USB packets={0}>".format(len(self.pcap))
 
@@ -118,6 +138,7 @@ class USB:
     def pcap(self) -> list:
         """list: list of dictionaries describing the packets of this pcap."""
         return self.__pcap
+
 
     @property
     def pcap_filename(self) -> str:
@@ -147,5 +168,4 @@ import os
 import shutil
 import subprocess
 import json
-from collections import OrderedDict
 from .helpers import *
