@@ -95,7 +95,25 @@ class USB:
         return True
 
     def pcap_filter(self, bus_id: TypeIntOptional = None, device_address: TypeIntOptional = None, endpoint_number: TypeIntOptional = None) -> PacketsOut:
-        """list: Return only those packets that match ALL of the input selection."""
+        """Return only those packets that match ALL of the input selection.
+        
+        Args:
+            bus_id: The bus id to select
+            device_address: The device address to select
+            endpoint_number: The endpoint number to select
+
+        Returns:
+            list: A list of OrderedDict packets matching the filter criteria.
+
+        Example:
+            If you wanted to select only those packets with a bus_id of 1,
+            device_address of 0 and endpoint_number of 1, you could do the
+            following::
+
+                >> from Gallimaufry.USB import USB
+                >> pcap = USB("pcap.pcap")
+                >> filt = pcap.pcap_filter(bus_id=1,device_address=0,endpoint_number=1)
+        """
 
         pcap = self.pcap
 
