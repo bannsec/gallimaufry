@@ -38,7 +38,7 @@ class Interface:
         self.bAlternateSetting = int(interface_descriptor_packet['usb.bAlternateSetting'])
         self.bNumEndpoints = int(interface_descriptor_packet['usb.bNumEndpoints'])
         self.bInterfaceClass = int(interface_descriptor_packet['usb.bInterfaceClass'])
-        self.bInterfaceSubClass = int(interface_descriptor_packet['usb.bInterfaceSubClass'])
+        self.bInterfaceSubClass = int(interface_descriptor_packet['usb.bInterfaceSubClass'],0)
         self.bInterfaceProtocol = int(interface_descriptor_packet['usb.bInterfaceProtocol'],16)
         self.iInterface = int(interface_descriptor_packet['usb.iInterface'])
 

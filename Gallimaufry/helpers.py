@@ -27,6 +27,9 @@ def resolve_vendor_id(vendor_id: int) -> str:
 @enforce.runtime_validation
 def resolve_product_id(vendor_id: int, product_id: int) -> str:
     ids = read_usb_ids()
+    
+    if "\n{0:04x}".format(vendor_id) not in ids:
+        return "Unknown..."
 
     # Need to find the product id that is part of this vendor
     products = ids.split("\n{0:04x}".format(vendor_id))[1]

@@ -10,3 +10,6 @@ menu driven
 filter out extra noise
 
 Handle string descriptors for all the objects.
+
+# Add the enum values
+http://libusb.sourceforge.net/api-1.0/group__desc.html#gga0a2e8a25dfdebf29fdd4764dcdbc1a9ca9bdd0a16eb0647330c2b7085520db533
