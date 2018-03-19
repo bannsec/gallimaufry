@@ -94,9 +94,16 @@ class Device:
         summary += "device_address: {0}\n".format(self.device_address)
         summary += "device_version: {0}\n".format(self.device_version)
         summary += "bluetooth_version: {0}\n".format(self.bluetooth_version)
-        summary += "packets: {0}\n\n".format(len(self.pcap))
+        summary += "packets: {0}\n".format(len(self.pcap))
 
-        summary += "Configurations\n"
+        # Print out string descriptors
+        if self.string_descriptors != {}:
+            summary += "string descriptors:\n"
+
+            for key in sorted(self.string_descriptors):
+                summary += "    {}. {}\n".format(key, self.string_descriptors[key])
+
+        summary += "\nConfigurations\n"
         summary += "--------------\n"
 
         # Loop through Configurations

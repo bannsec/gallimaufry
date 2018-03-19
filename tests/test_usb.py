@@ -14,3 +14,4 @@ def test_pcap_filter():
     pcap = USB(os.path.join(here,"examples","keyboards","pico_2017_Just_Keyp_Trying.pcap"))
 
     assert len(pcap.pcap) == len(pcap.pcap_filter(bus_id=2, device_address=1, endpoint_number=1))
+
