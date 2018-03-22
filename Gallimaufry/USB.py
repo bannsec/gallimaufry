@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger("Gallimaufry.USB")
+
 from . import Colorer, settings
 import enforce
 import typing
