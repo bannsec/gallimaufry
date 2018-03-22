@@ -1,4 +1,4 @@
-from . import Colorer
+from . import Colorer, settings
 import enforce
 import typing
 from collections import OrderedDict
@@ -76,7 +76,18 @@ class USB:
         
         Returns True on successful load, False otherwise"""
 
+        def determine_endpoint_designator(pcap: str) -> None:
+            """tshark has been changing names of fields... Try to determine what the endpoint designator field is called."""
+            if "usb.endpoint_address" in pcap:
+                settings.usb_endpoint_designator = "usb.endpoint_address"
+            elif "usb.endpoint_number" in pcap:
+                settings.usb_endpoint_designator = "usb.endpoint_number"
+            else:
+                logger.warn("Unable to dynamically determine endpoint_number designator in pcap. Results may be skewed.")
+
         def preprocess(pcap: str) -> str:
+            determine_endpoint_designator(pcap)
+
             # Work around the tshark issue where the json fields are not unique...
             # For now, just give them each a unique int. Because who cares.
             bad_words = ["HID DESCRIPTOR","ENDPOINT DESCRIPTOR"]
@@ -125,7 +136,7 @@ class USB:
 
         if endpoint_number is not None:
             # Remember, the endpoint number is the lower 3 bits of the actual endpoint_number field
-            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb']['usb.endpoint_number'],16) & 0b111 == endpoint_number]
+            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb'][settings.usb_endpoint_designator],16) & 0b111 == endpoint_number]
 
         return pcap
 

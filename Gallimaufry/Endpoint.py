@@ -79,8 +79,8 @@ class Endpoint:
     @pcap.setter
     def pcap(self, pcap) -> None:
         self.__pcap = [packet for packet in pcap if
-                'usb.endpoint_number' in packet['_source']['layers']['usb'] and
-                (int(packet['_source']['layers']['usb']['usb.endpoint_number'],16) & 0b111) == self.number
+                settings.usb_endpoint_designator in packet['_source']['layers']['usb'] and
+                (int(packet['_source']['layers']['usb'][settings.usb_endpoint_designator],16) & 0b111) == self.number
                 ]
 
     @property
@@ -199,3 +199,5 @@ class Endpoint:
     @bEndpointAddress.setter
     def bEndpointAddress(self, bEndpointAddress: int) -> None:
         self.__bEndpointAddress = bEndpointAddress
+
+from . import settings
