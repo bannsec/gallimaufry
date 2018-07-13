@@ -32,7 +32,13 @@ class Mouse:
                 y = y - 256
             if wheel > 127:
                 wheel = wheel - 256
-            action = "[X={:d} Y={:d} W={:d}] B={:d}\n".format(x,y,wheel,button)
+
+            action = {
+                'x': x,
+                'y': y,
+                'wheel': wheel,
+                'button': button
+                }
 
             self.actions_list.append(action)
 
@@ -43,7 +49,7 @@ class Mouse:
     @property
     def actions(self) -> str:
         """Returns the actions captured as a string."""
-        return ''.join(self.actions_list)
+        return ''.join("X={:d} Y={:d} W={:d}] B={:d}\n".format(action['x'], action['y'], action['wheel'], action['button']) for action in self.actions_list)
 
     @property
     def actions_list(self) -> list:
