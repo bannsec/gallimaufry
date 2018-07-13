@@ -1,8 +1,9 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y tshark python3 python3-virtualenv git && \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tshark python3 python3-virtualenv git sudo && \
     rm -rf /var/lib/apt/lists/* && \
-    adduser gallimaufry
+    adduser gallimaufry && \
+    echo 'gallimaufry ALL=(ALL) NOPASSWD:ALL' | sudo EDITOR='tee -a' visudo
 
 WORKDIR /home/gallimaufry
 
