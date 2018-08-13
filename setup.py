@@ -35,5 +35,6 @@ setup(
     install_requires=["enforce"],
     keywords='usb pcap parse',
     packages=find_packages(exclude=['contrib', 'docs', 'tests','lib','examples']),
+    data_files=[('Gallimaufry', ['Gallimaufry/usb.ids'])],
 )
 
