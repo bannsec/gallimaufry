@@ -1,6 +1,7 @@
 import enforce
 import typing
 from .HID import HID
+from .UVC import StreamingDescriptor, ControlDescriptor
 from .Endpoint import Endpoint
 from .Classes import get_class_handler
 
@@ -28,6 +29,9 @@ class Interface:
         # Assume no HID
         self.hid = None
 
+        # Assume empty UVC descriptor list
+        self.uvc = []
+
         # No known endpoints to start with
         self.endpoints = []
 
@@ -41,6 +45,12 @@ class Interface:
         self.bInterfaceSubClass = int(interface_descriptor_packet['usb.bInterfaceSubClass'],0)
         self.bInterfaceProtocol = int(interface_descriptor_packet['usb.bInterfaceProtocol'],16)
         self.iInterface = int(interface_descriptor_packet['usb.iInterface'])
+    
+    def _parse_uvc_streaming_descriptor_packet(self, uvc_descriptor_packet):
+        self.uvc.append(StreamingDescriptor(uvc_descriptor_packet))
+
+    def _parse_uvc_control_descriptor_packet(self, uvc_descriptor_packet):
+        self.uvc.append(ControlDescriptor(uvc_descriptor_packet))
 
     def _parse_hid_descriptor_packet(self, hid_descriptor_packet):
         self.hid = HID(hid_descriptor_packet)
@@ -69,16 +79,28 @@ class Interface:
 
         if self.protocol_str != None:
             summary += "Protocol: {0}\n".format(self.protocol_str)
-
-        summary += "\n"
-        summary += "Endpoints\n"
-        summary += "---------\n"
-
-        # Loop through Endpoints
-        for endpoint in self.endpoints:
+        
+        if self.uvc != []:
             summary += "\n"
-            for line in endpoint.summary.split("\n"):
-                summary +=  " "*4 + line + "\n"
+            summary += "Video descriptors\n"
+            summary += "-----------------\n"
+
+            # Loop through UVC descriptors
+            for uvc in self.uvc:
+                summary += "\n"
+                for line in uvc.summary.split("\n"):
+                    summary +=  " "*4 + line + "\n"
+        
+        if self.endpoints != []:
+            summary += "\n"
+            summary += "Endpoints\n"
+            summary += "---------\n"        
+
+            # Loop through Endpoints
+            for endpoint in self.endpoints:
+                summary += "\n"
+                for line in endpoint.summary.split("\n"):
+                    summary +=  " "*4 + line + "\n"
 
         return summary.strip()
 
