@@ -1,5 +1,9 @@
 import enforce
 
+# Implementation of USB video class according to the document:
+# "Universal Serial Bus Device Class Definition for Video Devices"
+# Revision 1.5
+
 # Control subypes
 VC_DESCRIPTOR_UNDEFINED = 0x00
 VC_HEADER               = 0x01
