@@ -62,6 +62,15 @@ class Configuration:
             elif int(layer['usb.bDescriptorType'],16) == 0x5:
                 self.interfaces[-1]._parse_endpoint_descriptor_packet(layer)
 
+            # UVC Descriptor
+            elif int(layer['usb.bDescriptorType'],16) == 0x24:
+                if 'usbvideo.streaming.descriptorSubType' in layer:
+                    self.interfaces[-1]._parse_uvc_streaming_descriptor_packet(layer)
+                elif 'usbvideo.control.descriptorSubType' in layer:
+                    self.interfaces[-1]._parse_uvc_control_descriptor_packet(layer)
+                else:
+                   logger.error("Not sure what this descriptor is... usb.bDescriptorType = {0}".format(int(layer['usb.bDescriptorType'],16)))
+
             else:
                 logger.error("Not sure what this descriptor is... usb.bDescriptorType = {0}".format(int(layer['usb.bDescriptorType'],16)))
 
