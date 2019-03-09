@@ -132,14 +132,14 @@ class USB:
         pcap = self.pcap
 
         if bus_id is not None:
-            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb']['usb.bus_id'],10) == bus_id]
+            pcap = [packet for packet in pcap if 'usb' in packet['_source']['layers'] and int(packet['_source']['layers']['usb']['usb.bus_id'],10) == bus_id]
 
         if device_address is not None:
-            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb']['usb.device_address'],10) == device_address]
+            pcap = [packet for packet in pcap if 'usb' in packet['_source']['layers'] and int(packet['_source']['layers']['usb']['usb.device_address'],10) == device_address]
 
         if endpoint_number is not None:
             # Remember, the endpoint number is the lower 3 bits of the actual endpoint_number field
-            pcap = [packet for packet in pcap if int(packet['_source']['layers']['usb'][settings.usb_endpoint_designator],16) & 0b111 == endpoint_number]
+            pcap = [packet for packet in pcap if 'usb' in packet['_source']['layers'] and int(packet['_source']['layers']['usb'][settings.usb_endpoint_designator],16) & 0b111 == endpoint_number]
 
         return pcap
 

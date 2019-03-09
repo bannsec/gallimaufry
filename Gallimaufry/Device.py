@@ -132,6 +132,7 @@ class Device:
     def pcap(self, pcap):
         # Filter the pcap down to only packets relevant for this device.
         self.__pcap = [packet for packet in pcap if 
+                'usb' in packet['_source']['layers'] and 
                 int(packet['_source']['layers']['usb']['usb.bus_id']) == self.bus_id and 
                 int(packet['_source']['layers']['usb']['usb.device_address']) == self.device_address
                 ]
