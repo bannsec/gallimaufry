@@ -4,6 +4,27 @@ import re
 
 here = os.path.dirname(os.path.realpath(__file__))
 
+class Bits(object):
+    """Array index are INCLUSIVE. I.e.: bits[0:2] includes bits 0,1,2."""
+
+    def __init__(self, value, size):
+
+        assert type(value) is int
+        assert type(size) is int
+
+        self._fmt = "0{size}b".format(size=size)
+        self.value = format(value, self._fmt)[::-1]
+        self.size = size
+
+    def __getitem__(self, key):
+
+        if type(key) is int:
+            return bool(int(self.value[key],2))
+
+        # Slice
+        s = slice(key.start, key.stop+1, key.step)
+        return int(self.value[s][::-1],2)
+
 def read_usb_ids():
     with open(os.path.join(here,"usb.ids"),"rb") as f:
         ids = f.read().decode('cp1252')
