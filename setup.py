@@ -32,7 +32,7 @@ setup(
     extras_require={
         'dev': ['six','ipython','twine','pytest','python-coveralls','coverage','pytest-cov','pytest-xdist','sphinxcontrib-napoleon', 'sphinx_rtd_theme','sphinx-autodoc-typehints'],
     },
-    install_requires=["enforce"],
+    install_requires=["enforce", "matplotlib"],
     keywords='usb pcap parse',
     packages=find_packages(exclude=['contrib', 'docs', 'tests','lib','examples']),
     data_files=[('Gallimaufry', ['Gallimaufry/usb.ids'])],
