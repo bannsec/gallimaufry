@@ -2,9 +2,7 @@ import logging
 
 logger = logging.getLogger("USB.Classes")
 
-import enforce
 
-@enforce.runtime_validation
 def get_class_handler(class_id: int):
     """Returns the handler for the given class id."""
 

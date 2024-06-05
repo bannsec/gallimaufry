@@ -1,4 +1,3 @@
-import enforce
 import os
 import re
 
@@ -30,7 +29,6 @@ def read_usb_ids():
         ids = f.read().decode('cp1252')
     return ids
 
-@enforce.runtime_validation
 def resolve_vendor_id(vendor_id: int) -> str:
     ids = read_usb_ids()
 
@@ -45,7 +43,6 @@ def resolve_vendor_id(vendor_id: int) -> str:
 
     return vendors[0]
 
-@enforce.runtime_validation
 def resolve_product_id(vendor_id: int, product_id: int) -> str:
     ids = read_usb_ids()
     
@@ -69,19 +66,15 @@ def resolve_product_id(vendor_id: int, product_id: int) -> str:
 # Does it have the field?
 # 
 
-@enforce.runtime_validation
 def has_device_descriptor(packet) -> bool:
     return any(True for layer in packet['_source']['layers'].values() if 'usb.bDescriptorType' in layer and int(layer['usb.bDescriptorType'],16) == 1 and 'usb.bmRequestType' not in layer)
 
-@enforce.runtime_validation
 def has_configuration_descriptor(packet) -> bool:
     return any(True for layer in packet['_source']['layers'].values() if 'usb.bDescriptorType' in layer and int(layer['usb.bDescriptorType'],16) == 2)
 
-@enforce.runtime_validation
 def has_string_descriptor(packet) -> bool:
     return any(True for layer in packet['_source']['layers'].values() if 'usb.bDescriptorType' in layer and int(layer['usb.bDescriptorType'],16) == 3 and 'usb.bString' in layer)
 
-@enforce.runtime_validation
 def has_endpoint_descriptor(packet) -> bool:
     return any(True for layer in packet['_source']['layers'].values() if 'usb.bDescriptorType' in layer and int(layer['usb.bDescriptorType'],16) == 4)
 
@@ -89,6 +82,5 @@ def has_endpoint_descriptor(packet) -> bool:
 # Get the fields (assumes we know they exist)
 #
 
-@enforce.runtime_validation
 def get_configuration_descriptor(packet):
     return next(layer for layer in packet['_source']['layers'].values() if 'usb.bDescriptorType' in layer and int(layer['usb.bDescriptorType'],16) == 2)

@@ -1,4 +1,3 @@
-import enforce
 
 # Implementation of USB video class according to the document:
 # "Universal Serial Bus Device Class Definition for Video Devices"
@@ -64,7 +63,6 @@ streamingSubtypes = {
         VS_FORMAT_H264_SIMULCAST: 'Format H264 simulcast'
         }
 
-@enforce.runtime_validation
 class StreamingDescriptor:
     """Describes a Streaming descriptor.
 
@@ -95,7 +93,6 @@ class StreamingDescriptor:
         """str: String representation of descriptor subtype."""
         return streamingSubtypes[self.bDescriptorSubType]
 
-@enforce.runtime_validation
 class ControlDescriptor:
     """Describes a control descriptor.
 

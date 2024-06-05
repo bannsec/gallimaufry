@@ -1,4 +1,3 @@
-import enforce
 import logging
 
 logger = logging.getLogger("USB.Configuration")
@@ -6,7 +5,6 @@ logger = logging.getLogger("USB.Configuration")
 import typing
 from collections import OrderedDict
 
-@enforce.runtime_validation
 class Configuration:
     """Represents a USB Configuration.
 

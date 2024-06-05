@@ -1,11 +1,9 @@
-import enforce
 import typing
 from .HID import HID
 from .UVC import StreamingDescriptor, ControlDescriptor
 from .Endpoint import Endpoint
 from .Classes import get_class_handler
 
-@enforce.runtime_validation
 class Interface:
     """Describes a USB Interface.
 

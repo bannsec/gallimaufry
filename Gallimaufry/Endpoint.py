@@ -1,4 +1,3 @@
-import enforce
 import logging
 
 logger = logging.getLogger("USB.Endpoint")
@@ -11,7 +10,6 @@ TT_ISOCHRONOUS = 1
 TT_BULK        = 2
 TT_INTERRUPT   = 3
 
-@enforce.runtime_validation
 class Endpoint:
     """Describes a USB Endpoint.
 

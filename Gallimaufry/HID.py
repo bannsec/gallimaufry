@@ -1,6 +1,4 @@
-import enforce
 
-@enforce.runtime_validation
 class HID:
     """Describes a USB HID.
 
