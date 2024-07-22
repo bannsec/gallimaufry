@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "build": "npm run package",
+    "build": "pip install .",
     "test": "test"
   }
 }
