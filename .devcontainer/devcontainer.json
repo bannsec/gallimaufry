@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "build": "pip install .",
-    "test": "test"
+    "build": "pip install .[dev]",
+    "test": "pytest --boxed -n 4 tests"
   }
 }
