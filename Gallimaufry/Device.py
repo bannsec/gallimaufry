@@ -1,9 +1,7 @@
 import logging
 logger = logging.getLogger("USB.Device")
 
-import enforce
 
-@enforce.runtime_validation
 class Device:
     """Defines a USB device.
     

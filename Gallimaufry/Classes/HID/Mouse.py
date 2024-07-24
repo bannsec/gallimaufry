@@ -1,9 +1,7 @@
 import logging
 logger = logging.getLogger("USB.Classes.HID.Mouse")
 
-import enforce
 
-#@enforce.runtime_validation
 class Mouse:
 
     def __init__(self, pcap):

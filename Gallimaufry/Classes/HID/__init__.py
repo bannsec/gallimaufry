@@ -1,7 +1,6 @@
 import logging
 logger = logging.getLogger("USB.Classes.HID")
 
-import enforce
 
 SC_NONE = 0
 SC_BOOT = 1
@@ -21,7 +20,6 @@ protocol_str = {
         PROTO_MOUSE    : 'Mouse',
     }
 
-@enforce.runtime_validation
 class HID:
 
     def __init__(self, interface):

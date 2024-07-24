@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 # Based on: https://www.psdevwiki.com/ps4/DS4-USB
 
-#@enforce.runtime_validation
 class DualShock4:
 
     def __init__(self, pcap):

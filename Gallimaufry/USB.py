@@ -2,7 +2,6 @@ import logging
 logger = logging.getLogger("Gallimaufry.USB")
 
 from . import Colorer, settings
-import enforce
 import typing
 from collections import OrderedDict
 from .Device import Device
@@ -12,7 +11,6 @@ Packets = typing.List[typing.Dict]
 PacketsOut = typing.List[OrderedDict]
 TypeIntOptional = typing.Optional[int]
 
-@enforce.runtime_validation
 class USB:
     """Base class for defining a USB packet capture.
 

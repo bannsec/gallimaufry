@@ -1,10 +1,7 @@
 import logging
 logger = logging.getLogger("USB.Classes.HID.Keyboard")
 
-import enforce
 
-#@enforce.runtime_validation
-# Static method issue: https://github.com/RussBaz/enforce/issues/55
 class Keyboard:
 
     def __init__(self, pcap):
