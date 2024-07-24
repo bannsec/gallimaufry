@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "build": "sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y python3-virtualenv && python3 -m venv ~/.virtualenvs/gallimaufry && . ~/.virtualenvs/gallimaufry/bin/activate && pip install .[dev]",
+    "test": "pytest --boxed -n 4 tests"
+  }
+}
